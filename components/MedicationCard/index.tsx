@@ -1,4 +1,3 @@
-import { View } from "react-native";
 import { Card } from "react-native-paper";
 import { Image } from "expo-image";
 

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { View } from "react-native";
 import { Searchbar } from "react-native-paper";
 
-import MedicationCard from "../../components/MedicationCard";
+import MedicationList from "@/components/MedicationList";
 import styles from "./styles";
 
 export default function Index() {
@@ -16,10 +16,7 @@ export default function Index() {
           value={searchValue}
           onChangeText={setSearchValue}
         />
-        <MedicationCard
-          medicationTitle="Dexason"
-          chemicalComposition="Dexametasona"
-        />
+        <MedicationList />
       </View>
     </View>
   );
