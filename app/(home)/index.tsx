@@ -1,49 +1,55 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { View } from "react-native";
 import { Searchbar } from "react-native-paper";
 
 import MedicationList from "@/components/MedicationList";
 import styles from "./styles";
 
+import { MedicationService } from "@/services/medication.service";
+
 const DATA_MOCK = [
   {
-    medicationTitle: "Dexason",
+    name: "Dexason",
     chemicalComposition: "Dexametasona",
   },
   {
-    medicationTitle: "Seki",
+    name: "Seki",
     chemicalComposition: "Fendizoato de cloperastina",
   },
   {
-    medicationTitle: "Sinvastacor",
+    name: "Sinvastacor",
     chemicalComposition: "Sinvastantina 20mg",
   },
   {
-    medicationTitle: "Novacort",
+    name: "Novacort",
     chemicalComposition:
       "Cetoconazol 20mg, Dipropionato de betametasona 0.64mg, sulfato de neomicina 2.5mg",
   },
   {
-    medicationTitle: "Lozeprel",
+    name: "Lozeprel",
     chemicalComposition: "Omeprazol",
   },
   {
-    medicationTitle: "Sinvastacor",
+    name: "Sinvastacor",
     chemicalComposition: "Sinvastantina 20mg",
   },
   {
-    medicationTitle: "Novacort",
+    name: "Novacort",
     chemicalComposition:
       "Cetoconazol 20mg, Dipropionato de betametasona 0.64mg, sulfato de neomicina 2.5mg",
   },
   {
-    medicationTitle: "Lozeprel",
+    name: "Lozeprel",
     chemicalComposition: "Omeprazol",
   },
 ];
 
 export default function Index() {
   const [searchValue, setSearchValue] = useState<string>("");
+
+  useEffect(() => {
+    MedicationService.getAllMedications();
+  }, []);
 
   return (
     <View style={styles.container}>

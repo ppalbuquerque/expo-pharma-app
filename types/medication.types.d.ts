@@ -1,4 +1,4 @@
 export type Medication = {
-  medicationTitle: string;
+  name: string;
   chemicalComposition: string;
 }

@@ -17,7 +17,7 @@ export default function MedicationList({ medicationList }: Props) {
       renderItem={({ item }) => (
         <View style={styles.cardContainer}>
           <MedicationCard
-            medicationTitle={item.medicationTitle}
+            medicationTitle={item.name}
             chemicalComposition={item.chemicalComposition}
           />
         </View>
