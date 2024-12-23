@@ -3,53 +3,21 @@ import { FlashList } from "@shopify/flash-list";
 
 import MedicationCard from "../MedicationCard";
 import styles from "./styles";
+import { Medication } from "@types";
 
-const DATA_MOCK = [
-  {
-    title: "Dexason",
-    chemicalComposition: "Dexametasona",
-  },
-  {
-    title: "Seki",
-    chemicalComposition: "Fendizoato de cloperastina",
-  },
-  {
-    title: "Sinvastacor",
-    chemicalComposition: "Sinvastantina 20mg",
-  },
-  {
-    title: "Novacort",
-    chemicalComposition:
-      "Cetoconazol 20mg, Dipropionato de betametasona 0.64mg, sulfato de neomicina 2.5mg",
-  },
-  {
-    title: "Lozeprel",
-    chemicalComposition: "Omeprazol",
-  },
-  {
-    title: "Sinvastacor",
-    chemicalComposition: "Sinvastantina 20mg",
-  },
-  {
-    title: "Novacort",
-    chemicalComposition:
-      "Cetoconazol 20mg, Dipropionato de betametasona 0.64mg, sulfato de neomicina 2.5mg",
-  },
-  {
-    title: "Lozeprel",
-    chemicalComposition: "Omeprazol",
-  },
-];
+type Props = {
+  medicationList: Medication[];
+};
 
-export default function MedicationList() {
+export default function MedicationList({ medicationList }: Props) {
   return (
     <FlatList
-      data={DATA_MOCK}
+      data={medicationList}
       style={styles.listcontainer}
       renderItem={({ item }) => (
         <View style={styles.cardContainer}>
           <MedicationCard
-            medicationTitle={item.title}
+            medicationTitle={item.medicationTitle}
             chemicalComposition={item.chemicalComposition}
           />
         </View>
