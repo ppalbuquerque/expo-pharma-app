@@ -9,6 +9,12 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 16,
     marginTop: 32
+  },
+  addNewButton: {
+    position: 'absolute',
+    margin: 16,
+    bottom: 0,
+    right: 0,
   }
 })
 
