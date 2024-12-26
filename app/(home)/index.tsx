@@ -3,9 +3,9 @@ import { View } from "react-native";
 import { Searchbar } from "react-native-paper";
 
 import MedicationList from "@/components/MedicationList";
-import styles from "./styles";
+import { useMedications } from "@/hooks/useMedications";
 
-import { MedicationService } from "@/services/medication.service";
+import styles from "./styles";
 
 const DATA_MOCK = [
   {
@@ -46,9 +46,10 @@ const DATA_MOCK = [
 
 export default function Index() {
   const [searchValue, setSearchValue] = useState<string>("");
+  const { medications, getMedications } = useMedications();
 
   useEffect(() => {
-    MedicationService.getAllMedications();
+    getMedications();
   }, []);
 
   return (
@@ -59,7 +60,7 @@ export default function Index() {
           value={searchValue}
           onChangeText={setSearchValue}
         />
-        <MedicationList medicationList={DATA_MOCK} />
+        <MedicationList medicationList={medications} />
       </View>
     </View>
   );
