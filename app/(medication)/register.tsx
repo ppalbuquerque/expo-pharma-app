@@ -4,6 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import TextInput from "@/components/TextInput";
 import Button from "@/components/Button";
 import { MedicationRegisterForm } from "@types";
+import { useMedications } from "@/hooks/useMedications";
 
 import styles from "./styles";
 
@@ -14,8 +15,10 @@ export default function Register() {
     formState: { errors },
   } = useForm<MedicationRegisterForm>();
 
+  const { createMedication } = useMedications();
+
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
+    createMedication(data);
   });
 
   return (
