@@ -3,8 +3,9 @@ export type CreateMedicationDTO = {
   chemicalComposition: string;
   dosageInstructions: string;
   shelfLocation: string;
-  boxPrice: number;
+  boxPrice?: number;
   unitPrice: number;
   usefulness: string;
   stockAvailability: number;
+  samplePhotoUrl: string;
 }
