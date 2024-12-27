@@ -36,22 +36,8 @@ export default function Register() {
           render={({ field }) => (
             <TextInput
               label="Nome"
-              supportingText="Nome fantasia do remédio"
-              value={field.value}
-              onBlur={field.onBlur}
-              onChangeText={field.onChange}
-            />
-          )}
-        />
-      </View>
-      <View style={styles.textInputContainer}>
-        <Controller
-          control={control}
-          name="dosageInstructions"
-          render={({ field }) => (
-            <TextInput
-              label="Posologia"
-              supportingText="Como o remédio deve ser tomado"
+              error={!!errors.name}
+              errorText={errors.name?.message}
               value={field.value}
               onBlur={field.onBlur}
               onChangeText={field.onChange}
@@ -66,7 +52,24 @@ export default function Register() {
           render={({ field }) => (
             <TextInput
               label="Composição química"
-              supportingText="Nomes dos compostos químicos"
+              error={!!errors.chemicalComposition}
+              errorText={errors.chemicalComposition?.message}
+              value={field.value}
+              onBlur={field.onBlur}
+              onChangeText={field.onChange}
+            />
+          )}
+        />
+      </View>
+      <View style={styles.textInputContainer}>
+        <Controller
+          control={control}
+          name="dosageInstructions"
+          render={({ field }) => (
+            <TextInput
+              label="Posologia"
+              error={!!errors.dosageInstructions}
+              errorText={errors.dosageInstructions?.message}
               value={field.value}
               onBlur={field.onBlur}
               onChangeText={field.onChange}
@@ -81,7 +84,8 @@ export default function Register() {
           render={({ field }) => (
             <TextInput
               label="Posição na prateleira"
-              supportingText="Selecione qual é a posição do remédio na prateleira"
+              error={!!errors.shelfLocation}
+              errorText={errors.shelfLocation?.message}
               value={field.value}
               onBlur={field.onBlur}
               onChangeText={field.onChange}
@@ -96,7 +100,8 @@ export default function Register() {
           render={({ field }) => (
             <TextInput
               label="Preço da caixa"
-              supportingText="Preço do remédio vendido em caixa"
+              error={!!errors.boxPrice}
+              errorText={errors.boxPrice?.message}
               keyboardType="decimal-pad"
               onBlur={field.onBlur}
               onChangeText={field.onChange}
@@ -111,7 +116,8 @@ export default function Register() {
           render={({ field }) => (
             <TextInput
               label="Preço da unidade"
-              supportingText="Preço de uma unidade do remédio"
+              error={!!errors.unitPrice}
+              errorText={errors.unitPrice?.message}
               keyboardType="decimal-pad"
               onBlur={field.onBlur}
               onChangeText={field.onChange}
@@ -126,7 +132,8 @@ export default function Register() {
           render={({ field }) => (
             <TextInput
               label="Uso da medicação"
-              supportingText="Qual é o uso indicado dessa medicação"
+              error={!!errors.usefulness}
+              errorText={errors.usefulness?.message}
               value={field.value}
               onBlur={field.onBlur}
               onChangeText={field.onChange}
@@ -141,7 +148,8 @@ export default function Register() {
           render={({ field }) => (
             <TextInput
               label="Estoque"
-              supportingText="Quantidade de unidades do remédio"
+              error={!!errors.stockAvailability}
+              errorText={errors.stockAvailability?.message}
               keyboardType="number-pad"
               onBlur={field.onBlur}
               onChangeText={field.onChange}

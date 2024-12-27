@@ -9,16 +9,20 @@ import {
 import styles from "./styles";
 
 interface Props extends TextInputProps {
-  supportingText: string;
+  errorText?: string;
 }
 
-export default function TextInput({ supportingText, ...props }: Props) {
+export default function TextInput({ errorText, ...props }: Props) {
   const { colors } = useTheme();
 
   return (
     <View>
-      <PaperTextInput {...props} />
-      <Text style={{ color: colors.scrim }}>{supportingText}</Text>
+      <PaperTextInput {...props} mode="outlined" />
+      {props.error && (
+        <Text style={[{ color: colors.error }, styles.errorMessage]}>
+          {errorText}
+        </Text>
+      )}
     </View>
   );
 }
