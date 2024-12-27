@@ -1,9 +1,13 @@
 import { View, ScrollView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import TextInput from "@/components/TextInput";
 import Button from "@/components/Button";
-import { MedicationRegisterForm } from "@types";
+import {
+  type CreateMedicationForm,
+  createMedicationFormSchema,
+} from "@schemas/medication/create-medication-form.schema";
 import { useMedications } from "@/hooks/useMedications";
 
 import styles from "./styles";
@@ -13,7 +17,9 @@ export default function Register() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<MedicationRegisterForm>();
+  } = useForm<CreateMedicationForm>({
+    resolver: yupResolver(createMedicationFormSchema),
+  });
 
   const { createMedication } = useMedications();
 
@@ -92,7 +98,6 @@ export default function Register() {
               label="Preço da caixa"
               supportingText="Preço do remédio vendido em caixa"
               keyboardType="decimal-pad"
-              value={field.value}
               onBlur={field.onBlur}
               onChangeText={field.onChange}
             />
@@ -108,7 +113,6 @@ export default function Register() {
               label="Preço da unidade"
               supportingText="Preço de uma unidade do remédio"
               keyboardType="decimal-pad"
-              value={field.value}
               onBlur={field.onBlur}
               onChangeText={field.onChange}
             />
@@ -123,7 +127,6 @@ export default function Register() {
             <TextInput
               label="Uso da medicação"
               supportingText="Qual é o uso indicado dessa medicação"
-              keyboardType="decimal-pad"
               value={field.value}
               onBlur={field.onBlur}
               onChangeText={field.onChange}
@@ -140,7 +143,6 @@ export default function Register() {
               label="Estoque"
               supportingText="Quantidade de unidades do remédio"
               keyboardType="number-pad"
-              value={field.value}
               onBlur={field.onBlur}
               onChangeText={field.onChange}
             />
