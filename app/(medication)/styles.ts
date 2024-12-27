@@ -7,5 +7,9 @@ export default StyleSheet.create({
   },
   textInputContainer: {
     marginBottom: 16
+  },
+  buttonContainer: {
+    marginTop: 16,
+    marginBottom: 48
   }
 })
