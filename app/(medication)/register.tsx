@@ -3,8 +3,8 @@ import { View, ScrollView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import TextInput from "@/components/TextInput";
-import Button from "@/components/Button";
+import TextInput from "@/components/common/TextInput";
+import Button from "@/components/common/Button";
 import {
   type CreateMedicationForm,
   createMedicationFormSchema,
