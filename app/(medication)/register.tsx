@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { View, ScrollView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -13,18 +14,22 @@ import { useMedications } from "@/hooks/useMedications";
 import styles from "./styles";
 
 export default function Register() {
+  const [isLoadingCreation, setIsLoadingCreation] = useState(false);
+
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<CreateMedicationForm>({
     resolver: yupResolver(createMedicationFormSchema),
   });
 
   const { createMedication } = useMedications();
 
-  const onSubmit = handleSubmit((data) => {
-    createMedication(data);
+  const onSubmit = handleSubmit(async (data) => {
+    setIsLoadingCreation(true);
+    await createMedication(data);
+    setIsLoadingCreation(false);
   });
 
   return (
@@ -158,7 +163,13 @@ export default function Register() {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <Button mode="contained" icon="plus" onPress={onSubmit}>
+        <Button
+          mode="contained"
+          icon="plus"
+          onPress={onSubmit}
+          loading={isLoadingCreation}
+          disabled={isLoadingCreation || !isValid}
+        >
           Adicionar
         </Button>
       </View>
