@@ -1,4 +1,4 @@
-import { Card, TouchableRipple } from "react-native-paper";
+import { Card } from "react-native-paper";
 import { Image } from "expo-image";
 
 import styles from "./styles";
@@ -13,16 +13,14 @@ export default function MedicationCard({
   medicationTitle,
 }: Props) {
   return (
-    <TouchableRipple>
-      <Card>
-        <Card.Title
-          title={medicationTitle}
-          subtitle={chemicalComposition}
-          right={(props) => (
-            <Image style={styles.image} source="https://picsum.photos/200" />
-          )}
-        />
-      </Card>
-    </TouchableRipple>
+    <Card style={styles.cardContainer}>
+      <Card.Title
+        title={medicationTitle}
+        subtitle={chemicalComposition}
+        right={(props) => (
+          <Image style={styles.image} source="https://picsum.photos/200" />
+        )}
+      />
+    </Card>
   );
 }

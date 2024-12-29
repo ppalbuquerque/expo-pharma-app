@@ -5,6 +5,6 @@ export default StyleSheet.create({
     marginTop: 36
   },
   cardContainer: {
-    marginBottom: 12
+    marginBottom: 12,
   },
 })
