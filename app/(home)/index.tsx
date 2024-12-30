@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { Searchbar, FAB } from "react-native-paper";
 import { Link } from "expo-router";
 
-import MedicationList from "@/components/MedicationList";
+import MedicationList from "@/components/Medications/MedicationList";
 import { useMedications } from "@/hooks/useMedications";
 
 import styles from "./styles";
