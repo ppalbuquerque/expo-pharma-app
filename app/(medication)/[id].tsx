@@ -1,6 +1,9 @@
-import { View, StyleSheet, ScrollView } from "react-native";
-import { Card, Text } from "react-native-paper";
+import { useEffect } from "react";
+import { StyleSheet, ScrollView } from "react-native";
+import { Card, ActivityIndicator } from "react-native-paper";
+import { useLocalSearchParams } from "expo-router";
 
+import { useMedications } from "@/hooks/useMedications";
 import Button from "@/components/common/Button";
 import MedicationInfo from "@/components/Medications/MedicationInfo";
 
@@ -19,14 +22,26 @@ const styles = StyleSheet.create({
 });
 
 export default function Detail() {
+  const { id } = useLocalSearchParams<{ id: string }>();
+
+  const { getMedication, selectedMedication, isLoading } = useMedications();
+
+  useEffect(() => {
+    getMedication(id);
+  }, []);
+
+  if (isLoading) {
+    return <ActivityIndicator size="large" />;
+  }
+
   return (
     <ScrollView style={styles.container}>
       <MedicationInfo
         coverUrl="https://picsum.photos/700"
         medicationInfo={[
           {
-            title: "Dexason",
-            description: "Dexametasona",
+            title: selectedMedication?.name,
+            description: selectedMedication?.chemicalComposition,
           },
         ]}
       />
@@ -34,12 +49,11 @@ export default function Detail() {
         medicationInfo={[
           {
             title: "Posologia",
-            description: "Recomendar utilização de 1 comprimido a cada 8 horas",
+            description: selectedMedication?.dosageInstructions,
           },
           {
             title: "Para que serve",
-            description:
-              "Ele é um anti-inflamatório de uso geral, ele pode ser indicado para dor no corpo, inflamação de garganta.",
+            description: selectedMedication?.usefulness,
           },
         ]}
       />
@@ -47,11 +61,11 @@ export default function Detail() {
         medicationInfo={[
           {
             title: "Estoque",
-            description: "20 Unidades",
+            description: `${selectedMedication?.stockAvailability} Unidades`,
           },
           {
             title: "Posição",
-            description: "Prateleira 2F",
+            description: `Prateleira ${selectedMedication?.shelfLocation}`,
           },
         ]}
       />
@@ -59,11 +73,11 @@ export default function Detail() {
         medicationInfo={[
           {
             title: "Preço Unitário",
-            description: "R$ 40,00",
+            description: `R$ ${selectedMedication?.unitPrice}`,
           },
           {
             title: "Preço Caixa",
-            description: "R$ 40,00",
+            description: `R$ ${selectedMedication?.boxPrice}`,
           },
         ]}
       />

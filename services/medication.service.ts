@@ -1,6 +1,6 @@
 import axios from "axios"
 
-import type { Medication, CreateMedicationDTO } from '@types'
+import type { Medication, CreateMedicationDTO, GetMedicationResponse } from '@types'
 
 const BASE_URL = 'https://nestjs-pharmacy-api.onrender.com'
 
@@ -13,5 +13,10 @@ export class MedicationService {
 
   static async createMedication(data: CreateMedicationDTO): Promise<void> {
     await axios.post(`${BASE_URL}/medication`, data)
+  }
+
+  static async getMedicationDetail(medicationId: string): Promise<GetMedicationResponse> {
+    const response = await axios.get(`${BASE_URL}/medication/${medicationId}`)
+    return response.data;
   }
 }

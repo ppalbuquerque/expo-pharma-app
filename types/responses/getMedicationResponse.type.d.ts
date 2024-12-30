@@ -1,12 +1,14 @@
-export type Medication = {
+export type GetMedicationResponse = {
   name: string;
   chemicalComposition: string;
   id: string;
-  boxPrice: number;
+  boxPrice: string;
+  createdAt: string;
   dosageInstructions: string;
   samplePhotoUrl: string;
   shelfLocation: string;
   stockAvailability: number;
-  unitPrice: number;
+  unitPrice: string;
+  updateAt: string;
   usefulness: string;
 }

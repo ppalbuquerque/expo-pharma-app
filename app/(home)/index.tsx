@@ -10,10 +10,10 @@ import styles from "./styles";
 
 export default function Index() {
   const [searchValue, setSearchValue] = useState<string>("");
-  const { medications, getMedications } = useMedications();
+  const { medications, listMedications } = useMedications();
 
   useEffect(() => {
-    getMedications();
+    listMedications();
   }, []);
 
   return (

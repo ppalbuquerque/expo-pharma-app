@@ -4,8 +4,8 @@ import { Card, Text } from "react-native-paper";
 import styles from "./styles";
 
 type MedicationInfo = {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
 };
 
 type Props = {

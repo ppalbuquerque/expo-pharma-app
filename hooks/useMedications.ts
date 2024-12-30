@@ -1,15 +1,20 @@
+import { useState } from 'react'
+
 import { useAtom } from 'jotai'
 
 import { MedicationService } from "@/services/medication.service";
-import { medicationsAtom } from '@atoms/medication.atom'
+import { medicationsAtom, selectedMedicationAtom } from '@atoms/medication.atom'
 import {
   type CreateMedicationForm,
 } from "@schemas/medication/create-medication-form.schema";
 
 export function useMedications() {
-  const [medications, setMedications] = useAtom(medicationsAtom)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const getMedications = async () => {
+  const [medications, setMedications] = useAtom(medicationsAtom)
+  const [selectedMedication, setSelectedMedication] = useAtom(selectedMedicationAtom)
+
+  const listMedications = async () => {
     try {
       const medications = await MedicationService.getAllMedications()
       setMedications(medications)
@@ -26,10 +31,29 @@ export function useMedications() {
       console.log('createMedicationError::error', error)
     }
   }
+
+  const getMedication = async (medicationId: string) => {
+    try {
+      setIsLoading(true)
+      const medicationResponse = await MedicationService.getMedicationDetail(medicationId)
+      /** TODO: Melhorar a forma como o parse das responses é feito para o objeto que a aplicação usa */
+      setSelectedMedication({
+        ...medicationResponse,
+        boxPrice: parseFloat(medicationResponse.boxPrice),
+        unitPrice: parseFloat(medicationResponse.unitPrice)
+      })
+      setIsLoading(false)
+    } catch(error) {
+      console.log('getMedicationError::error', error)
+    }
+  }
   
   return {
     medications,
-    getMedications,
+    selectedMedication,
+    listMedications,
     createMedication,
+    getMedication,
+    isLoading,
   }
 }
