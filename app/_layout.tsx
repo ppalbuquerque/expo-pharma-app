@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import {
   PaperProvider,
+  Portal,
   MD3LightTheme as DefaultTheme,
 } from "react-native-paper";
 
@@ -15,7 +16,9 @@ const theme = {
 export default function RootLayout() {
   return (
     <PaperProvider theme={theme}>
-      <Stack />
+      <Portal>
+        <Stack />
+      </Portal>
     </PaperProvider>
   );
 }
