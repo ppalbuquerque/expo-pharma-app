@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, ScrollView, View } from "react-native";
 import { Card, ActivityIndicator } from "react-native-paper";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 
 import { useMedications } from "@/hooks/useMedications";
 
@@ -43,7 +43,8 @@ export default function Detail() {
   };
 
   const onEraseButtonPress = async () => {
-    deleteMedication(id);
+    await deleteMedication(id);
+    router.back();
   };
 
   return (
@@ -122,7 +123,12 @@ export default function Detail() {
         >
           Cancelar
         </Button>
-        <Button buttonColor="" onPress={onEraseButtonPress}>
+        <Button
+          buttonColor=""
+          onPress={onEraseButtonPress}
+          loading={isLoading.deleteMedicationLoading}
+          disabled={isLoading.deleteMedicationLoading}
+        >
           Apagar
         </Button>
       </Dialog>

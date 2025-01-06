@@ -75,7 +75,7 @@ export function useMedications() {
       await MedicationService.deleteMedication(medicationId)
       setIsLoading((state) => ({
         ...state,
-        deleteMedicationLoading: true,
+        deleteMedicationLoading: false,
       }))
     } catch(error) {
       console.log('deleteMedicationError:error', error)
