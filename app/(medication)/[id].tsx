@@ -27,18 +27,23 @@ export default function Detail() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
-  const { getMedication, selectedMedication, isLoading } = useMedications();
+  const { getMedication, deleteMedication, selectedMedication, isLoading } =
+    useMedications();
 
   useEffect(() => {
     getMedication(id);
   }, []);
 
-  if (isLoading) {
+  if (isLoading.getMedicationLoading) {
     return <ActivityIndicator size="large" />;
   }
 
   const handleDeleteMedicationToggle = () => {
     setIsDeleteDialogOpen((actualState) => !actualState);
+  };
+
+  const onEraseButtonPress = async () => {
+    deleteMedication(id);
   };
 
   return (
@@ -117,7 +122,9 @@ export default function Detail() {
         >
           Cancelar
         </Button>
-        <Button buttonColor="">Apagar</Button>
+        <Button buttonColor="" onPress={onEraseButtonPress}>
+          Apagar
+        </Button>
       </Dialog>
     </View>
   );

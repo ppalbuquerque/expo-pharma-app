@@ -19,4 +19,8 @@ export class MedicationService {
     const response = await axios.get(`${BASE_URL}/medication/${medicationId}`)
     return response.data;
   }
+
+  static async deleteMedication(medicationId: string): Promise<void> {
+    const response = await axios.delete(`${BASE_URL}/medication/${medicationId}`)
+  }
 }

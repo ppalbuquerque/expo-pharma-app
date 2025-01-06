@@ -8,8 +8,20 @@ import {
   type CreateMedicationForm,
 } from "@schemas/medication/create-medication-form.schema";
 
+interface LoadingState  {
+  listMedicationsLoading: boolean;
+  deleteMedicationLoading: boolean;
+  getMedicationLoading: boolean;
+  createMedicationLoading: boolean;
+}
+
 export function useMedications() {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState<LoadingState>({
+    createMedicationLoading: false,
+    deleteMedicationLoading: false,
+    getMedicationLoading: false,
+    listMedicationsLoading: false,
+  })
 
   const [medications, setMedications] = useAtom(medicationsAtom)
   const [selectedMedication, setSelectedMedication] = useAtom(selectedMedicationAtom)
@@ -34,7 +46,10 @@ export function useMedications() {
 
   const getMedication = async (medicationId: string) => {
     try {
-      setIsLoading(true)
+      setIsLoading((state) => ({
+        ...state,
+        getMedicationLoading: true,
+      }))
       const medicationResponse = await MedicationService.getMedicationDetail(medicationId)
       /** TODO: Melhorar a forma como o parse das responses é feito para o objeto que a aplicação usa */
       setSelectedMedication({
@@ -42,9 +57,28 @@ export function useMedications() {
         boxPrice: parseFloat(medicationResponse.boxPrice),
         unitPrice: parseFloat(medicationResponse.unitPrice)
       })
-      setIsLoading(false)
+      setIsLoading((state) => ({
+        ...state,
+        getMedicationLoading: false,
+      }))
     } catch(error) {
       console.log('getMedicationError::error', error)
+    }
+  }
+
+  const deleteMedication = async (medicationId: string) => {
+    try {
+      setIsLoading((state) => ({
+        ...state,
+        deleteMedicationLoading: true,
+      }))
+      await MedicationService.deleteMedication(medicationId)
+      setIsLoading((state) => ({
+        ...state,
+        deleteMedicationLoading: true,
+      }))
+    } catch(error) {
+      console.log('deleteMedicationError:error', error)
     }
   }
   
@@ -54,6 +88,7 @@ export function useMedications() {
     listMedications,
     createMedication,
     getMedication,
+    deleteMedication,
     isLoading,
   }
 }
