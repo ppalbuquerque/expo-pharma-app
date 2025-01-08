@@ -24,7 +24,10 @@ export default function Index() {
           value={searchValue}
           onChangeText={setSearchValue}
         />
-        <MedicationList medicationList={medications} />
+        <MedicationList
+          medicationList={medications}
+          onRefreshList={listMedications}
+        />
       </View>
       <Link href="/(medication)/register" style={styles.addNewButton}>
         <FAB icon="plus" size="large" />
