@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { View } from "react-native";
 import { Searchbar, FAB } from "react-native-paper";
-import { Link } from "expo-router";
+import { Link, Stack } from "expo-router";
 
 import MedicationList from "@/components/Medications/MedicationList";
 import { useMedications } from "@/hooks/useMedications";
@@ -18,6 +18,7 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
+      <Stack.Screen options={{ title: "Lista de medicamentos" }} />
       <View style={styles.content}>
         <Searchbar
           placeholder="Nome, composto ou função"

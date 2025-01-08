@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, ScrollView, View } from "react-native";
 import { Card, ActivityIndicator } from "react-native-paper";
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams, Stack } from "expo-router";
 
 import { useMedications } from "@/hooks/useMedications";
 
@@ -49,6 +49,11 @@ export default function Detail() {
 
   return (
     <View>
+      <Stack.Screen
+        options={{
+          title: selectedMedication?.name ?? "Detalhes do medicamento",
+        }}
+      />
       <ScrollView style={styles.container}>
         <MedicationInfo
           coverUrl="https://picsum.photos/700"
