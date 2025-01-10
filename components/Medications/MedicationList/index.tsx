@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FlatList, RefreshControl } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import { Link } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
 
@@ -10,11 +11,13 @@ import { ListMedicationAtom } from "@types";
 type Props = {
   medicationList: ListMedicationAtom[];
   onRefreshList: () => void;
+  isLoading: boolean;
 };
 
 export default function MedicationList({
   medicationList,
   onRefreshList,
+  isLoading,
 }: Props) {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -23,6 +26,10 @@ export default function MedicationList({
     await onRefreshList();
     setIsRefreshing(false);
   };
+
+  if (isLoading) {
+    return <ActivityIndicator size="large" style={{ marginTop: 32 }} />;
+  }
 
   return (
     <FlatList
