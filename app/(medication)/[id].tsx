@@ -120,6 +120,7 @@ export default function Detail() {
         type="error"
         title="Apagar medicamento"
         description="Você tem certeza que deseja apagar esse medicamento do sistema?"
+        onDismiss={handleDeleteMedicationToggle}
       >
         <Button
           mode="outlined"
