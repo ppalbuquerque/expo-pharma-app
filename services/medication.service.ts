@@ -1,6 +1,6 @@
 import axios from "axios"
 
-import type { Medication, CreateMedicationDTO, GetMedicationResponse } from '@types'
+import type { Medication, CreateMedicationDTO, GetMedicationResponse, SearchMedicationResponse } from '@types'
 
 const BASE_URL = 'https://nestjs-pharmacy-api.onrender.com'
 
@@ -21,6 +21,11 @@ export class MedicationService {
   }
 
   static async deleteMedication(medicationId: string): Promise<void> {
-    const response = await axios.delete(`${BASE_URL}/medication/${medicationId}`)
+    await axios.delete(`${BASE_URL}/medication/${medicationId}`)
+  }
+
+  static async search(query: string): Promise<SearchMedicationResponse[]> {
+    const response = await axios.get(`${BASE_URL}/medication/search?q=${query}`);
+    return response.data;
   }
 }
