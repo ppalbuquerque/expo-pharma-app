@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { View } from "react-native";
 import { Searchbar, FAB } from "react-native-paper";
-import { Link, Stack } from "expo-router";
+import { Link, Stack, useFocusEffect } from "expo-router";
 
 import MedicationList from "@/components/Medications/MedicationList";
 import { useMedications } from "@/hooks/useMedications";
@@ -12,9 +12,11 @@ export default function Index() {
   const [searchValue, setSearchValue] = useState<string>("");
   const { medications, listMedications } = useMedications();
 
-  useEffect(() => {
-    listMedications();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      listMedications();
+    }, [])
+  );
 
   return (
     <View style={styles.container}>
