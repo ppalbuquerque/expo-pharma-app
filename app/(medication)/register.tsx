@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, ScrollView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import TextInput from "@/components/common/TextInput";
@@ -31,6 +31,7 @@ export default function Register() {
     setIsLoadingCreation(true);
     await createMedication(data);
     setIsLoadingCreation(false);
+    router.back();
   });
 
   return (
