@@ -5,10 +5,10 @@ import { FlashList } from "@shopify/flash-list";
 
 import MedicationCard from "../MedicationCard";
 import styles from "./styles";
-import { Medication } from "@types";
+import { ListMedicationAtom } from "@types";
 
 type Props = {
-  medicationList: Medication[];
+  medicationList: ListMedicationAtom[];
   onRefreshList: () => void;
 };
 

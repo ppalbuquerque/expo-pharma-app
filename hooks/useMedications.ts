@@ -13,6 +13,7 @@ interface LoadingState  {
   deleteMedicationLoading: boolean;
   getMedicationLoading: boolean;
   createMedicationLoading: boolean;
+  searchMedicationsLoading: boolean;
 }
 
 export function useMedications() {
@@ -21,6 +22,7 @@ export function useMedications() {
     deleteMedicationLoading: false,
     getMedicationLoading: false,
     listMedicationsLoading: false,
+    searchMedicationsLoading: false,
   })
 
   const [medications, setMedications] = useAtom(medicationsAtom)
@@ -81,6 +83,23 @@ export function useMedications() {
       console.log('deleteMedicationError:error', error)
     }
   }
+
+  const searchMedications = async (query: string) => {
+    try {
+      setIsLoading((state) => ({
+        ...state,
+        searchMedicationsLoading: true,
+      }))
+      const medications = await MedicationService.search(query)
+      setMedications(medications);
+      setIsLoading((state) => ({
+        ...state,
+        searchMedicationsLoading: false,
+      }))
+    } catch(error) {
+      console.log('searchMedications::error', error)
+    }
+  }
   
   return {
     medications,
@@ -89,6 +108,7 @@ export function useMedications() {
     createMedication,
     getMedication,
     deleteMedication,
+    searchMedications,
     isLoading,
   }
 }

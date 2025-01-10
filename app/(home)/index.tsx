@@ -10,7 +10,8 @@ import styles from "./styles";
 
 export default function Index() {
   const [searchValue, setSearchValue] = useState<string>("");
-  const { medications, listMedications } = useMedications();
+  const { medications, listMedications, isLoading, searchMedications } =
+    useMedications();
 
   useFocusEffect(
     useCallback(() => {

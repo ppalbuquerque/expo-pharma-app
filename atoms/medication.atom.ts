@@ -1,5 +1,5 @@
 import { atom } from 'jotai'
-import { Medication } from '@types'
+import { Medication, ListMedicationAtom } from '@types'
 
-export const medicationsAtom = atom<Medication[]>([])
+export const medicationsAtom = atom<ListMedicationAtom[]>([])
 export const selectedMedicationAtom = atom<Medication>()

@@ -1,7 +1,7 @@
 export type GetMedicationResponse = {
   name: string;
   chemicalComposition: string;
-  id: string;
+  id: number;
   boxPrice: string;
   createdAt: string;
   dosageInstructions: string;
