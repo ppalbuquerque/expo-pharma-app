@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import TextInput from "@/components/common/TextInput";
 import Button from "@/components/common/Button";
+import ImagePicker from "@/components/common/ImagePicker";
 import {
   type CreateMedicationForm,
   createMedicationFormSchema,
