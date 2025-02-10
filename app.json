@@ -40,6 +40,17 @@
           "photosPermission": "O app irá acessar suas fotos para poder registrar a imagem do medicamento.np",
           "cameraPermission": "O app irá acessar sua câmera para poder capturar uma foto do medicamento."
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "kotlinVersion": "1.9.25"
+          },
+          "ios": {
+            "deploymentTarget": "15.1"
+          }
+        }
       ]
     ],
     "experiments": {
