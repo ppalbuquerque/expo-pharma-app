@@ -12,7 +12,7 @@ import {
 } from "@schemas/medication/create-medication-form.schema";
 import { useMedications } from "@/hooks/useMedications";
 
-import styles from "./styles";
+import styles from "../../screens/medication-register/styles";
 
 export default function Register() {
   const [isLoadingCreation, setIsLoadingCreation] = useState(false);

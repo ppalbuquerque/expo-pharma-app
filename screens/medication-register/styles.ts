@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
@@ -6,10 +6,10 @@ export default StyleSheet.create({
     marginTop: 32,
   },
   textInputContainer: {
-    marginBottom: 16
+    marginBottom: 16,
   },
   buttonContainer: {
     marginTop: 16,
-    marginBottom: 48
-  }
-})
+    marginBottom: 48,
+  },
+});
