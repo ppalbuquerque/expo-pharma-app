@@ -1,13 +1,17 @@
-import { useState, useEffect, useCallback } from "react";
-import { useFocusEffect } from "expo-router";
+import { useState, useEffect } from "react";
 
 import useDebounce from "@/hooks/common/useDebounce";
 import { useMedicationModel } from "@/medicines/medication.model";
 
 export function useHomeViewModel() {
   const [searchValue, setSearchValue] = useState<string>("");
-  const { medications, listMedications, searchMedications, isLoading } =
-    useMedicationModel();
+  const { useGetMedications, searchMedications } = useMedicationModel();
+
+  const {
+    data: medications,
+    refetch: refetchMedications,
+    isLoading: isLoadingListMedications,
+  } = useGetMedications();
 
   const debouncedSearchTerm = useDebounce(searchValue);
 
@@ -17,29 +21,19 @@ export function useHomeViewModel() {
     }
   }, [debouncedSearchTerm, searchMedications]);
 
-  useFocusEffect(
-    useCallback(() => {
-      listMedications();
-    }, [listMedications])
-  );
-
   const handleOnSearchInputChange = (term: string) => {
     if (term.length === 0) {
-      listMedications();
+      refetchMedications();
     }
     setSearchValue(term);
-  };
-
-  const handleListMedications = () => {
-    listMedications();
   };
 
   return {
     searchValue,
     medications,
-    isLoading,
+    isLoadingListMedications,
     setSearchValue,
     handleOnSearchInputChange,
-    handleListMedications,
+    refetchMedications,
   };
 }
