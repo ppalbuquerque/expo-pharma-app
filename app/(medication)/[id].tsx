@@ -26,19 +26,16 @@ const styles = StyleSheet.create({
 export default function MedicationDetail() {
   const {
     isDeleteDialogOpen,
-    handleDeleteMedicationToggle,
     medication,
     getMedicationLoading,
+    deleteMedicationLoading,
+    handleDeleteMedicationToggle,
+    handleDeleteMedication,
   } = useMedicationDetailViewModel();
 
   if (getMedicationLoading) {
     return <ActivityIndicator size="large" />;
   }
-
-  // const onEraseButtonPress = async () => {
-  //   await deleteMedication(id);
-  //   router.back();
-  // };
 
   return (
     <View>
@@ -122,14 +119,14 @@ export default function MedicationDetail() {
         >
           Cancelar
         </Button>
-        {/* <Button
+        <Button
           buttonColor=""
-          onPress={onEraseButtonPress}
-          loading={isLoading.deleteMedicationLoading}
-          disabled={isLoading.deleteMedicationLoading}
+          onPress={handleDeleteMedication}
+          loading={deleteMedicationLoading}
+          disabled={deleteMedicationLoading}
         >
           Apagar
-        </Button> */}
+        </Button>
       </Dialog>
     </View>
   );
