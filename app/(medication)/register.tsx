@@ -1,38 +1,25 @@
-import { useState } from "react";
 import { View, ScrollView } from "react-native";
-import { useForm, Controller } from "react-hook-form";
-import { Stack, router } from "expo-router";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller } from "react-hook-form";
+import { Stack } from "expo-router";
 
 import TextInput from "@/components/common/TextInput";
 import Button from "@/components/common/Button";
-import {
-  type CreateMedicationForm,
-  createMedicationFormSchema,
-} from "@schemas/medication/create-medication-form.schema";
-import { useMedications } from "@/hooks/useMedications";
+
+import { useMedicationRegisterViewModel } from "@/screens/medication-register/useMedicationRegisterViewModel";
 
 import styles from "../../screens/medication-register/styles";
+import React from "react";
 
 export default function Register() {
-  const [isLoadingCreation, setIsLoadingCreation] = useState(false);
-
   const {
+    createMedicationLoading,
     control,
-    handleSubmit,
-    formState: { errors, isValid },
-  } = useForm<CreateMedicationForm>({
-    resolver: yupResolver(createMedicationFormSchema),
-  });
+    formErrors,
+    isFormValid,
+    handleFormSubmit,
+  } = useMedicationRegisterViewModel();
 
-  const { createMedication } = useMedications();
-
-  const onSubmit = handleSubmit(async (data) => {
-    setIsLoadingCreation(true);
-    await createMedication(data);
-    setIsLoadingCreation(false);
-    router.back();
-  });
+  console.log(createMedicationLoading, isFormValid);
 
   return (
     <ScrollView style={styles.container}>
@@ -44,8 +31,8 @@ export default function Register() {
           render={({ field }) => (
             <TextInput
               label="Nome"
-              error={!!errors.name}
-              errorText={errors.name?.message}
+              error={!!formErrors.name}
+              errorText={formErrors.name?.message}
               value={field.value}
               onBlur={field.onBlur}
               onChangeText={field.onChange}
@@ -60,8 +47,8 @@ export default function Register() {
           render={({ field }) => (
             <TextInput
               label="Composição química"
-              error={!!errors.chemicalComposition}
-              errorText={errors.chemicalComposition?.message}
+              error={!!formErrors.chemicalComposition}
+              errorText={formErrors.chemicalComposition?.message}
               value={field.value}
               onBlur={field.onBlur}
               onChangeText={field.onChange}
@@ -76,8 +63,8 @@ export default function Register() {
           render={({ field }) => (
             <TextInput
               label="Posologia"
-              error={!!errors.dosageInstructions}
-              errorText={errors.dosageInstructions?.message}
+              error={!!formErrors.dosageInstructions}
+              errorText={formErrors.dosageInstructions?.message}
               value={field.value}
               onBlur={field.onBlur}
               onChangeText={field.onChange}
@@ -92,8 +79,8 @@ export default function Register() {
           render={({ field }) => (
             <TextInput
               label="Posição na prateleira"
-              error={!!errors.shelfLocation}
-              errorText={errors.shelfLocation?.message}
+              error={!!formErrors.shelfLocation}
+              errorText={formErrors.shelfLocation?.message}
               value={field.value}
               onBlur={field.onBlur}
               onChangeText={field.onChange}
@@ -108,8 +95,8 @@ export default function Register() {
           render={({ field }) => (
             <TextInput
               label="Preço da caixa"
-              error={!!errors.boxPrice}
-              errorText={errors.boxPrice?.message}
+              error={!!formErrors.boxPrice}
+              errorText={formErrors.boxPrice?.message}
               keyboardType="decimal-pad"
               onBlur={field.onBlur}
               onChangeText={field.onChange}
@@ -124,8 +111,8 @@ export default function Register() {
           render={({ field }) => (
             <TextInput
               label="Preço da unidade"
-              error={!!errors.unitPrice}
-              errorText={errors.unitPrice?.message}
+              error={!!formErrors.unitPrice}
+              errorText={formErrors.unitPrice?.message}
               keyboardType="decimal-pad"
               onBlur={field.onBlur}
               onChangeText={field.onChange}
@@ -140,8 +127,8 @@ export default function Register() {
           render={({ field }) => (
             <TextInput
               label="Uso da medicação"
-              error={!!errors.usefulness}
-              errorText={errors.usefulness?.message}
+              error={!!formErrors.usefulness}
+              errorText={formErrors.usefulness?.message}
               value={field.value}
               onBlur={field.onBlur}
               onChangeText={field.onChange}
@@ -156,8 +143,8 @@ export default function Register() {
           render={({ field }) => (
             <TextInput
               label="Estoque"
-              error={!!errors.stockAvailability}
-              errorText={errors.stockAvailability?.message}
+              error={!!formErrors.stockAvailability}
+              errorText={formErrors.stockAvailability?.message}
               keyboardType="number-pad"
               onBlur={field.onBlur}
               onChangeText={field.onChange}
@@ -169,9 +156,9 @@ export default function Register() {
         <Button
           mode="contained"
           icon="plus"
-          onPress={onSubmit}
-          loading={isLoadingCreation}
-          disabled={isLoadingCreation || !isValid}
+          onPress={handleFormSubmit}
+          loading={createMedicationLoading}
+          disabled={createMedicationLoading || !isFormValid}
         >
           Adicionar
         </Button>
