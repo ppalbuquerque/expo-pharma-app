@@ -41,6 +41,12 @@ export function useMedicationModel() {
       queryFn: () => MedicationService.getAllMedications(),
     });
 
+  const useGetMedicationById = (medicationId: string) =>
+    useQuery({
+      queryKey: ["medication-detail", medicationId],
+      queryFn: () => MedicationService.getMedicationDetail(medicationId),
+    });
+
   const createMedication = async (data: CreateMedicationForm) => {
     try {
       /** TODO: Remover o parâmetro samplePhotoUrl hardcoded */
@@ -50,29 +56,6 @@ export function useMedicationModel() {
       });
     } catch (error) {
       console.log("createMedicationError::error", error);
-    }
-  };
-
-  const getMedication = async (medicationId: string) => {
-    try {
-      setIsLoading((state) => ({
-        ...state,
-        getMedicationLoading: true,
-      }));
-      const medicationResponse =
-        await MedicationService.getMedicationDetail(medicationId);
-      /** TODO: Melhorar a forma como o parse das responses é feito para o objeto que a aplicação usa */
-      setSelectedMedication({
-        ...medicationResponse,
-        boxPrice: parseFloat(medicationResponse.boxPrice),
-        unitPrice: parseFloat(medicationResponse.unitPrice),
-      });
-      setIsLoading((state) => ({
-        ...state,
-        getMedicationLoading: false,
-      }));
-    } catch (error) {
-      console.log("getMedicationError::error", error);
     }
   };
 
@@ -113,8 +96,8 @@ export function useMedicationModel() {
     medications,
     selectedMedication,
     useGetMedications,
+    useGetMedicationById,
     createMedication,
-    getMedication,
     deleteMedication,
     searchMedications,
     isLoading,

@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import { StyleSheet, ScrollView, View } from "react-native";
 import { Card, ActivityIndicator } from "react-native-paper";
-import { router, useLocalSearchParams, Stack } from "expo-router";
+import { Stack } from "expo-router";
 
-import { useMedications } from "@/hooks/useMedications";
+import { useMedicationDetailViewModel } from "@/screens/medication-detail/useMedicationDetailViewModel";
 
 import Button from "@/components/common/Button";
 import MedicationInfo from "@/components/Medications/MedicationInfo";
@@ -23,35 +23,28 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Detail() {
-  const { id } = useLocalSearchParams<{ id: string }>();
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+export default function MedicationDetail() {
+  const {
+    isDeleteDialogOpen,
+    handleDeleteMedicationToggle,
+    medication,
+    getMedicationLoading,
+  } = useMedicationDetailViewModel();
 
-  const { getMedication, deleteMedication, selectedMedication, isLoading } =
-    useMedications();
-
-  useEffect(() => {
-    getMedication(id);
-  }, []);
-
-  if (isLoading.getMedicationLoading) {
+  if (getMedicationLoading) {
     return <ActivityIndicator size="large" />;
   }
 
-  const handleDeleteMedicationToggle = () => {
-    setIsDeleteDialogOpen((actualState) => !actualState);
-  };
-
-  const onEraseButtonPress = async () => {
-    await deleteMedication(id);
-    router.back();
-  };
+  // const onEraseButtonPress = async () => {
+  //   await deleteMedication(id);
+  //   router.back();
+  // };
 
   return (
     <View>
       <Stack.Screen
         options={{
-          title: selectedMedication?.name ?? "Detalhes do medicamento",
+          title: medication?.name ?? "Detalhes do medicamento",
         }}
       />
       <ScrollView style={styles.container}>
@@ -59,8 +52,8 @@ export default function Detail() {
           coverUrl="https://picsum.photos/700"
           medicationInfo={[
             {
-              title: selectedMedication?.name,
-              description: selectedMedication?.chemicalComposition,
+              title: medication?.name,
+              description: medication?.chemicalComposition,
             },
           ]}
         />
@@ -68,11 +61,11 @@ export default function Detail() {
           medicationInfo={[
             {
               title: "Posologia",
-              description: selectedMedication?.dosageInstructions,
+              description: medication?.dosageInstructions,
             },
             {
               title: "Para que serve",
-              description: selectedMedication?.usefulness,
+              description: medication?.usefulness,
             },
           ]}
         />
@@ -80,11 +73,11 @@ export default function Detail() {
           medicationInfo={[
             {
               title: "Estoque",
-              description: `${selectedMedication?.stockAvailability} Unidades`,
+              description: `${medication?.stockAvailability} Unidades`,
             },
             {
               title: "Posição",
-              description: `Prateleira ${selectedMedication?.shelfLocation}`,
+              description: `Prateleira ${medication?.shelfLocation}`,
             },
           ]}
         />
@@ -92,11 +85,11 @@ export default function Detail() {
           medicationInfo={[
             {
               title: "Preço Unitário",
-              description: `R$ ${selectedMedication?.unitPrice}`,
+              description: `R$ ${medication?.unitPrice}`,
             },
             {
               title: "Preço Caixa",
-              description: `R$ ${selectedMedication?.boxPrice}`,
+              description: `R$ ${medication?.boxPrice}`,
             },
           ]}
         />
@@ -129,14 +122,14 @@ export default function Detail() {
         >
           Cancelar
         </Button>
-        <Button
+        {/* <Button
           buttonColor=""
           onPress={onEraseButtonPress}
           loading={isLoading.deleteMedicationLoading}
           disabled={isLoading.deleteMedicationLoading}
         >
           Apagar
-        </Button>
+        </Button> */}
       </Dialog>
     </View>
   );
