@@ -11,6 +11,7 @@ import {
   selectedMedicationAtom,
 } from "@atoms/medication.atom";
 import { type CreateMedicationForm } from "@schemas/medication/create-medication-form.schema";
+import { useQuery } from "@tanstack/react-query";
 
 interface LoadingState {
   listMedicationsLoading: boolean;
@@ -34,14 +35,11 @@ export function useMedicationModel() {
     selectedMedicationAtom
   );
 
-  const listMedications = async () => {
-    try {
-      const medications = await MedicationService.getAllMedications();
-      setMedications(medications);
-    } catch (error) {
-      console.log("Error::error", error);
-    }
-  };
+  const useGetMedications = () =>
+    useQuery({
+      queryKey: ["list-medications"],
+      queryFn: () => MedicationService.getAllMedications(),
+    });
 
   const createMedication = async (data: CreateMedicationForm) => {
     try {
@@ -114,7 +112,7 @@ export function useMedicationModel() {
   return {
     medications,
     selectedMedication,
-    listMedications,
+    useGetMedications,
     createMedication,
     getMedication,
     deleteMedication,

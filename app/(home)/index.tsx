@@ -13,9 +13,11 @@ export default function Index() {
     searchValue,
     handleOnSearchInputChange,
     medications,
-    isLoading,
-    handleListMedications,
+    isLoadingListMedications,
+    refetchMedications,
   } = useHomeViewModel();
+
+  console.log(isLoadingListMedications);
 
   return (
     <View style={styles.container}>
@@ -29,11 +31,8 @@ export default function Index() {
         />
         <MedicationList
           medicationList={medications}
-          onRefreshList={handleListMedications}
-          isLoading={
-            isLoading.listMedicationsLoading ||
-            isLoading.searchMedicationsLoading
-          }
+          onRefreshList={refetchMedications}
+          isLoading={isLoadingListMedications}
         />
       </View>
       <Link href="/(medication)/register" style={styles.addNewButton}>
