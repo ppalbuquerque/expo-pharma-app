@@ -9,12 +9,4 @@ export type Medication = {
   stockAvailability: number;
   unitPrice: number;
   usefulness: string;
-}
-
-export type ListMedicationAtom = {
-  id: number;
-  name: string;
-  chemicalComposition: string;
-  samplePhotoUrl: string;
-  samplePhotoUrl: string;
-}
+};
