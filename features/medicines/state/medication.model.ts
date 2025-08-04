@@ -29,28 +29,17 @@ export function useMedicationModel() {
       MedicationService.deleteMedication(medicationId),
   });
 
-  const searchMedications = async (query: string) => {
-    try {
-      // setIsLoading((state) => ({
-      //   ...state,
-      //   searchMedicationsLoading: true,
-      // }));
-      // const medications = await MedicationService.search(query);
-      // setMedications(medications);
-      // setIsLoading((state) => ({
-      //   ...state,
-      //   searchMedicationsLoading: false,
-      // }));
-    } catch (error) {
-      console.log("searchMedications::error", error);
-    }
-  };
+  const useSearchMedications = (query: string) =>
+    useQuery({
+      queryKey: ["medication-search", query],
+      queryFn: () => MedicationService.search(query),
+    });
 
   return {
     useGetMedications,
     useGetMedicationById,
     createMedication,
     deleteMedication,
-    searchMedications,
+    useSearchMedications,
   };
 }
