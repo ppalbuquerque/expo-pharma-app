@@ -17,8 +17,6 @@ export default function HomeScreen() {
     refetchMedications,
   } = useHomeViewModel();
 
-  console.log(isLoadingListMedications);
-
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ title: "Lista de medicamentos" }} />

@@ -19,8 +19,6 @@ export default function MedicationRegisterScreen() {
     handleFormSubmit,
   } = useMedicationRegisterViewModel();
 
-  console.log(createMedicationLoading, isFormValid);
-
   return (
     <ScrollView style={styles.container}>
       <Stack.Screen options={{ title: "Registrar medicamento" }} />
