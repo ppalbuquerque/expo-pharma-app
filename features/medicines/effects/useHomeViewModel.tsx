@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import useDebounce from "@/shared/hooks/common/useDebounce";
 import { useMedicationModel } from "../state/medication.model";
 
 export function useHomeViewModel() {
   const [searchValue, setSearchValue] = useState<string>("");
-  const { useGetMedications, searchMedications } = useMedicationModel();
+  const { useGetMedications, useSearchMedications } = useMedicationModel();
 
   const {
     data: medications,
@@ -15,23 +15,21 @@ export function useHomeViewModel() {
 
   const debouncedSearchTerm = useDebounce(searchValue);
 
-  useEffect(() => {
-    if (debouncedSearchTerm.length !== 0) {
-      searchMedications(debouncedSearchTerm);
-    }
-  }, [debouncedSearchTerm, searchMedications]);
+  const { data: searchResult, isFetching: isSearchFetching } =
+    useSearchMedications(debouncedSearchTerm);
 
   const handleOnSearchInputChange = (term: string) => {
-    if (term.length === 0) {
-      refetchMedications();
-    }
     setSearchValue(term);
   };
 
+  const medicationList =
+    debouncedSearchTerm.length > 0 ? searchResult : medications;
+  const isLoadingMedications = isLoadingListMedications || isSearchFetching;
+
   return {
     searchValue,
-    medications,
-    isLoadingListMedications,
+    medicationList,
+    isLoadingMedications,
     setSearchValue,
     handleOnSearchInputChange,
     refetchMedications,

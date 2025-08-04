@@ -12,8 +12,8 @@ export default function HomeScreen() {
   const {
     searchValue,
     handleOnSearchInputChange,
-    medications,
-    isLoadingListMedications,
+    medicationList,
+    isLoadingMedications,
     refetchMedications,
   } = useHomeViewModel();
 
@@ -25,12 +25,11 @@ export default function HomeScreen() {
           placeholder="Nome, composto ou função"
           value={searchValue}
           onChangeText={handleOnSearchInputChange}
-          // onEndEditing={() => searchMedications(searchValue)}
         />
         <MedicationList
-          medicationList={medications}
+          medicationList={medicationList}
           onRefreshList={refetchMedications}
-          isLoading={isLoadingListMedications}
+          isLoading={isLoadingMedications}
         />
       </View>
       <Link href="/(medication)/register" style={styles.addNewButton}>

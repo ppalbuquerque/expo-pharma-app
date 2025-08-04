@@ -4,7 +4,6 @@ import type {
   Medication,
   CreateMedicationDTO,
   GetMedicationResponse,
-  SearchMedicationResponse,
 } from "@types";
 
 const BASE_URL = "http://localhost:3000";
@@ -31,7 +30,7 @@ export class MedicationService {
     await axios.delete(`${BASE_URL}/medication/${medicationId}`);
   }
 
-  static async search(query: string): Promise<SearchMedicationResponse[]> {
+  static async search(query: string): Promise<Medication[]> {
     const response = await axios.get(
       `${BASE_URL}/medication/search?q=${query}`
     );
