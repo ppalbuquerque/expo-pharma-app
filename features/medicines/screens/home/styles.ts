@@ -3,18 +3,24 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fffd",
+    backgroundColor: "#F7F7F7",
+  },
+  searchBarContainer: {
+    backgroundColor: "#fff",
+    padding: 16,
   },
   content: {
     flex: 1,
-    marginHorizontal: 16,
-    marginTop: 32,
   },
   addNewButton: {
     position: "absolute",
     margin: 16,
-    bottom: 0,
+    bottom: 60,
     right: 0,
+  },
+  fabButton: {
+    borderRadius: "50%",
+    backgroundColor: "#FF5A5F",
   },
 });
 

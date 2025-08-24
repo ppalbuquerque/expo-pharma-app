@@ -1,12 +1,14 @@
 import React from "react";
 import { View } from "react-native";
-import { Searchbar, FAB } from "react-native-paper";
+import { FAB } from "react-native-paper";
 import { Link, Stack } from "expo-router";
 
 import MedicationList from "@/features/medicines/components/MedicationList";
+import HomeHeader from "../../components/HomeHeader";
+import { useHomeViewModel } from "@/features/medicines/effects/useHomeViewModel";
 
 import styles from "./styles";
-import { useHomeViewModel } from "@/features/medicines/effects/useHomeViewModel";
+import SearchBar from "@/shared/components/common/Searchbar";
 
 export default function HomeScreen() {
   const {
@@ -19,13 +21,17 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ title: "Lista de medicamentos" }} />
+      <Stack.Screen
+        options={{ headerTitle: (props) => <HomeHeader {...props} /> }}
+      />
       <View style={styles.content}>
-        <Searchbar
-          placeholder="Nome, composto ou função"
-          value={searchValue}
-          onChangeText={handleOnSearchInputChange}
-        />
+        <View style={styles.searchBarContainer}>
+          <SearchBar
+            placeholder="Nome, composto ou função"
+            value={searchValue}
+            onChangeText={handleOnSearchInputChange}
+          />
+        </View>
         <MedicationList
           medicationList={medicationList}
           onRefreshList={refetchMedications}
@@ -33,7 +39,7 @@ export default function HomeScreen() {
         />
       </View>
       <Link href="/(medication)/register" style={styles.addNewButton}>
-        <FAB icon="plus" size="large" />
+        <FAB icon="plus" size="medium" style={styles.fabButton} />
       </Link>
     </View>
   );

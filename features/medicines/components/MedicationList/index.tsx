@@ -35,7 +35,7 @@ export default function MedicationList({
   return (
     <FlatList
       data={medicationList}
-      style={styles.listcontainer}
+      contentContainerStyle={styles.listContentContainer}
       refreshControl={
         <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
       }

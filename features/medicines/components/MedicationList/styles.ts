@@ -1,8 +1,9 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-  listcontainer: {
-    marginTop: 36,
+  listContentContainer: {
+    paddingHorizontal: 16,
+    paddingTop: 16,
   },
   cardContainer: {
     marginBottom: 12,
