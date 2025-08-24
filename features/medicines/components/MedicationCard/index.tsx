@@ -1,5 +1,7 @@
-import { Card } from "react-native-paper";
+import React from "react";
+import { View, Text } from "react-native";
 import { Image } from "expo-image";
+import EvilIcons from "@expo/vector-icons/EvilIcons";
 
 import styles from "./styles";
 
@@ -13,14 +15,23 @@ export default function MedicationCard({
   medicationTitle,
 }: Props) {
   return (
-    <Card style={styles.cardContainer}>
-      <Card.Title
-        title={medicationTitle}
-        subtitle={chemicalComposition}
-        right={(props) => (
+    <View style={styles.cardContainer}>
+      <View style={styles.contentContainer}>
+        <View style={styles.contentLeftContainer}>
           <Image style={styles.image} source="https://picsum.photos/200" />
-        )}
-      />
-    </Card>
+          <View style={styles.infoContainer}>
+            <Text style={styles.medicationTitle}>{medicationTitle}</Text>
+            <Text style={styles.medicationDescription}>
+              {chemicalComposition}
+            </Text>
+            <View style={styles.shelfLocationContainer}>
+              <EvilIcons name="location" size={20} color="black" />
+              <Text style={styles.shelfLocationText}>Prateleira 3F</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.stockIndicator} />
+      </View>
+    </View>
   );
 }
