@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { FAB } from "react-native-paper";
 import { Link, Stack } from "expo-router";
 
@@ -16,6 +16,7 @@ export default function HomeScreen() {
     handleOnSearchInputChange,
     medicationList,
     isLoadingMedications,
+    isMedicationListEmpty,
     refetchMedications,
   } = useHomeViewModel();
 
@@ -32,6 +33,13 @@ export default function HomeScreen() {
             onChangeText={handleOnSearchInputChange}
           />
         </View>
+        {isMedicationListEmpty && (
+          <View style={styles.emptyMessageContainer}>
+            <Text style={styles.emptyMessageText}>
+              Não encontramos nenhum remédio
+            </Text>
+          </View>
+        )}
         <MedicationList
           medicationList={medicationList}
           onRefreshList={refetchMedications}

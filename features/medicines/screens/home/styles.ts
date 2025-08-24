@@ -22,6 +22,18 @@ const styles = StyleSheet.create({
     borderRadius: "50%",
     backgroundColor: "#FF5A5F",
   },
+  emptyMessageContainer: {
+    flex: 1,
+    alignItems: "center",
+    marginTop: 32,
+    paddingHorizontal: 16,
+  },
+  emptyMessageText: {
+    fontWeight: "bold",
+    color: "#DC2626",
+    fontSize: 24,
+    textAlign: "center",
+  },
 });
 
 export default styles;

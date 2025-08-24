@@ -24,12 +24,19 @@ export function useHomeViewModel() {
 
   const medicationList =
     debouncedSearchTerm.length > 0 ? searchResult : medications;
+
   const isLoadingMedications = isLoadingListMedications || isSearchFetching;
+
+  const isMedicationListEmpty =
+    !isLoadingMedications &&
+    medicationList !== undefined &&
+    medicationList.length <= 0;
 
   return {
     searchValue,
     medicationList,
     isLoadingMedications,
+    isMedicationListEmpty,
     setSearchValue,
     handleOnSearchInputChange,
     refetchMedications,
