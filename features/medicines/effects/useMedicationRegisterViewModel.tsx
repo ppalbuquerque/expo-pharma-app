@@ -2,6 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { router } from "expo-router";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
+import * as ImagePicker from "expo-image-picker";
 
 import { useMedicationModel } from "../state/medication.model";
 import {
@@ -23,6 +24,10 @@ export function useMedicationRegisterViewModel() {
     createMedication.mutate(data);
   });
 
+  const onPhotoTaken = async (photo: ImagePicker.ImagePickerResult) => {
+    console.log(photo);
+  };
+
   useEffect(() => {
     if (createMedication.isSuccess) {
       router.back();
@@ -36,5 +41,6 @@ export function useMedicationRegisterViewModel() {
     formErrors: errors,
     isFormValid: isValid,
     handleFormSubmit,
+    onPhotoTaken,
   };
 }

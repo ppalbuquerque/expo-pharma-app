@@ -34,6 +34,13 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Permita que o app acesse a sua galeria de fotos.",
+          "cameraPermission": "Permita que o app acesse a sua câmera para tirar fotos."
+        }
       ]
     ],
     "experiments": {
