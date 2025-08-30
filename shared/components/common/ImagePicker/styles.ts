@@ -24,4 +24,10 @@ export default StyleSheet.create({
   button: {
     backgroundColor: "#222222",
   },
+  imageContainer: {
+    marginBottom: 24,
+    width: "100%",
+    height: 200,
+    borderRadius: 8,
+  },
 });

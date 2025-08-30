@@ -122,7 +122,7 @@ export default function MedicationRegisterScreen() {
                 <CurrencyInput
                   label="Preço da caixa"
                   helperText="Preço da caixa"
-                  value={field.value.toString()}
+                  value={field.value?.toString()}
                   onChangeText={field.onChange}
                 />
               )}
@@ -141,7 +141,7 @@ export default function MedicationRegisterScreen() {
                 <CurrencyInput
                   label="Preço da unidade "
                   helperText="Preço de uma unidade"
-                  value={field.value.toString()}
+                  value={field.value?.toString()}
                   onChangeText={field.onChange}
                 />
               )}
@@ -177,7 +177,7 @@ export default function MedicationRegisterScreen() {
                   onBlur={field.onBlur}
                   onChangeText={field.onChange}
                   helperText="A quantidade em estoque"
-                  value={field.value.toString()}
+                  value={field.value?.toString()}
                 />
               )}
             />
