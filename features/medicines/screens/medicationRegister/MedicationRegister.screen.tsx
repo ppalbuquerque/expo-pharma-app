@@ -21,6 +21,7 @@ export default function MedicationRegisterScreen() {
     isFormValid,
     handleFormSubmit,
     onPhotoTaken,
+    onCancelPress,
   } = useMedicationRegisterViewModel();
 
   return (
@@ -191,13 +192,8 @@ export default function MedicationRegisterScreen() {
       <View style={styles.fixedButtonAreaContainer}>
         <View style={styles.actionsContainer}>
           <View style={styles.cancelButtonContainer}>
-            <Button
-              mode="outlined"
-              onPress={handleFormSubmit}
-              loading={createMedicationLoading}
-              disabled={createMedicationLoading || !isFormValid}
-            >
-              Cancelar
+            <Button mode="outlined" onPress={onCancelPress}>
+              Voltar
             </Button>
           </View>
           <Button

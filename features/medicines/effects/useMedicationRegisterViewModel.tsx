@@ -21,11 +21,16 @@ export function useMedicationRegisterViewModel() {
   });
 
   const handleFormSubmit = handleSubmit(async (data) => {
+    console.log("Submit");
     createMedication.mutate(data);
   });
 
   const onPhotoTaken = async (photo: ImagePicker.ImagePickerResult) => {
     console.log(photo);
+  };
+
+  const onCancelPress = () => {
+    router.back();
   };
 
   useEffect(() => {
@@ -42,5 +47,6 @@ export function useMedicationRegisterViewModel() {
     isFormValid: isValid,
     handleFormSubmit,
     onPhotoTaken,
+    onCancelPress,
   };
 }
