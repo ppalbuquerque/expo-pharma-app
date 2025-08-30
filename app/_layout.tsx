@@ -2,8 +2,8 @@ import { Stack } from "expo-router";
 import React from "react";
 import {
   PaperProvider,
-  Portal,
   MD3LightTheme as DefaultTheme,
+  Portal,
 } from "react-native-paper";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
