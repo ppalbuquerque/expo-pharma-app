@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import DropdownPicker, { ValueType } from "react-native-dropdown-picker";
 
 import { useDropDownPicker } from "./useDropDownPicker";
-import styles from "./styles";
+import buildStyles from "./styles";
 
 type PharmaDropDownPickerItem = {
   label: string;
@@ -17,6 +17,8 @@ interface IPharmaDropdownPicker {
   label: string;
   helperText: string;
   placeholder?: string;
+  hasError: boolean;
+  errorMessage: string | undefined;
 }
 
 export default function PharmaDropdownPicker({
@@ -26,8 +28,10 @@ export default function PharmaDropdownPicker({
   label,
   helperText,
   placeholder,
+  hasError,
 }: IPharmaDropdownPicker) {
   const { isOpen, setIsOpen } = useDropDownPicker();
+  const styles = buildStyles(hasError);
 
   return (
     <View>
@@ -39,7 +43,7 @@ export default function PharmaDropdownPicker({
         multiple={false}
         setValue={setValue}
         value={value}
-        style={styles.inputContainer}
+        style={[styles.inputContainer]}
         placeholder={placeholder}
       />
       <Text style={styles.helperText}>{helperText}</Text>

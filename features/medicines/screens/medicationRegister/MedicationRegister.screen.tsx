@@ -94,11 +94,6 @@ export default function MedicationRegisterScreen() {
               control={control}
               name="shelfLocation"
               render={({ field }) => (
-                // <TextInput
-                //   error={!!formErrors.shelfLocation}
-                //   errorText={formErrors.shelfLocation?.message}
-                //   onBlur={field.onBlur}
-                // />
                 <PharmaDropdownPicker
                   label="Posição na prateleira"
                   items={[{ label: "teste", value: "test" }]}
@@ -106,6 +101,8 @@ export default function MedicationRegisterScreen() {
                   setValue={field.onChange}
                   helperText="Localização na prateleira"
                   placeholder="Selecione a posição na prateleira"
+                  hasError={!!formErrors.shelfLocation}
+                  errorMessage={formErrors.shelfLocation?.message}
                 />
               )}
             />
@@ -115,16 +112,13 @@ export default function MedicationRegisterScreen() {
               control={control}
               name="boxPrice"
               render={({ field }) => (
-                // <TextInput
-                //   error={!!formErrors.boxPrice}
-                //   errorText={formErrors.boxPrice?.message}
-                //   onBlur={field.onBlur}
-                // />
                 <CurrencyInput
                   label="Preço da caixa"
                   helperText="Preço da caixa"
                   value={field.value?.toString()}
                   onChangeText={field.onChange}
+                  hasError={!!formErrors.boxPrice}
+                  onBlur={field.onBlur}
                 />
               )}
             />
@@ -134,16 +128,13 @@ export default function MedicationRegisterScreen() {
               control={control}
               name="unitPrice"
               render={({ field }) => (
-                // <TextInput
-                //   error={!!formErrors.unitPrice}
-                //   errorText={formErrors.unitPrice?.message}
-                //   onBlur={field.onBlur}
-                // />
                 <CurrencyInput
                   label="Preço da unidade "
                   helperText="Preço de uma unidade"
                   value={field.value?.toString()}
                   onChangeText={field.onChange}
+                  hasError={!!formErrors.unitPrice}
+                  onBlur={field.onBlur}
                 />
               )}
             />
@@ -192,7 +183,7 @@ export default function MedicationRegisterScreen() {
       <View style={styles.fixedButtonAreaContainer}>
         <View style={styles.actionsContainer}>
           <View style={styles.cancelButtonContainer}>
-            <Button mode="outlined" onPress={onCancelPress}>
+            <Button mode="outlined" onPress={onCancelPress} buttonColor="white">
               Voltar
             </Button>
           </View>
@@ -201,8 +192,10 @@ export default function MedicationRegisterScreen() {
             onPress={handleFormSubmit}
             loading={createMedicationLoading}
             disabled={createMedicationLoading || !isFormValid}
+            buttonColor="#FF5A5F"
+            textColor="white"
           >
-            Registra medicamento
+            Registrar medicamento
           </Button>
         </View>
       </View>
