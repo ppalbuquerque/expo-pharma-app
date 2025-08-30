@@ -5,7 +5,7 @@ export const createMedicationFormSchema = yup.object({
   chemicalComposition: yup.string().required(),
   dosageInstructions: yup.string().required(),
   shelfLocation: yup.string().required(),
-  boxPrice: yup.number(),
+  boxPrice: yup.number().required(),
   unitPrice: yup.number().required(),
   usefulness: yup.string().required(),
   stockAvailability: yup.number().required(),
