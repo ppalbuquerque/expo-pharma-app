@@ -6,7 +6,7 @@ import { Stack } from "expo-router";
 import { useMedicationDetailViewModel } from "@/features/medicines/effects/useMedicationDetailViewModel";
 
 import Button from "@/shared/components/common/Button";
-import Dialog from "@/shared/components/common/Dialog";
+// import Dialog from "@/shared/components/common/Toasts/";
 
 import MedicationInfo from "../../components/MedicationInfo";
 
@@ -106,7 +106,7 @@ export default function MedicationDetail() {
           </Card.Content>
         </Card>
       </ScrollView>
-      <Dialog
+      {/* <Dialog
         visible={isDeleteDialogOpen}
         type="error"
         title="Apagar medicamento"
@@ -128,7 +128,7 @@ export default function MedicationDetail() {
         >
           Apagar
         </Button>
-      </Dialog>
+      </Dialog> */}
     </View>
   );
 }

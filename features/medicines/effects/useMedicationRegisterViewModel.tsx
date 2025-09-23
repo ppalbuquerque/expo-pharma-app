@@ -3,6 +3,7 @@ import { router } from "expo-router";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
+import Toast from "react-native-toast-message";
 
 import { useMedicationModel } from "../state/medication.model";
 import {
@@ -21,7 +22,6 @@ export function useMedicationRegisterViewModel() {
   });
 
   const handleFormSubmit = handleSubmit(async (data) => {
-    console.log("Submit");
     createMedication.mutate(data);
   });
 
@@ -30,8 +30,17 @@ export function useMedicationRegisterViewModel() {
   };
 
   const onCancelPress = () => {
-    router.back();
+    showSuccessToast();
+    // router.back();
   };
+
+  const showSuccessToast = () =>
+    Toast.show({
+      type: "success",
+      text1: "Medication Registered Successfully!",
+      text2:
+        "Aspirin has been added to your pharmacy inventory and is now available for dispensing.",
+    });
 
   useEffect(() => {
     if (createMedication.isSuccess) {
@@ -48,5 +57,6 @@ export function useMedicationRegisterViewModel() {
     handleFormSubmit,
     onPhotoTaken,
     onCancelPress,
+    showSuccessToast,
   };
 }
