@@ -1,7 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { router } from "expo-router";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
 import Toast from "react-native-toast-message";
 
@@ -17,12 +16,45 @@ export function useMedicationRegisterViewModel() {
     control,
     handleSubmit,
     formState: { errors, isValid },
+    getValues,
   } = useForm<CreateMedicationForm>({
     resolver: yupResolver(createMedicationFormSchema),
   });
 
+  const onCreateMedicationSuccess = () => {
+    showSuccessToast();
+    setTimeout(() => router.back(), 1500);
+  };
+
+  const onCreateMedicationError = () => {
+    showErrorToast();
+  };
+
+  const showSuccessToast = () => {
+    const { name } = getValues();
+
+    Toast.show({
+      type: "success",
+      text1: "Medicamento registrado com sucesso!",
+      text2: `${name} foi adicionado ao sistema da farmácia e já pode ser utilizado.`,
+    });
+  };
+
+  const showErrorToast = () => {
+    const { name } = getValues();
+
+    Toast.show({
+      type: "error",
+      text1: "Erro ao registrar o medicamento",
+      text2: `Ocorreu um erro ao tentar registrar ${name} dentro do sistema`,
+    });
+  };
+
   const handleFormSubmit = handleSubmit(async (data) => {
-    createMedication.mutate(data);
+    createMedication.mutate(data, {
+      onSuccess: onCreateMedicationSuccess,
+      onError: onCreateMedicationError,
+    });
   });
 
   const onPhotoTaken = async (photo: ImagePicker.ImagePickerResult) => {
@@ -30,23 +62,8 @@ export function useMedicationRegisterViewModel() {
   };
 
   const onCancelPress = () => {
-    showSuccessToast();
-    // router.back();
+    router.back();
   };
-
-  const showSuccessToast = () =>
-    Toast.show({
-      type: "success",
-      text1: "Medication Registered Successfully!",
-      text2:
-        "Aspirin has been added to your pharmacy inventory and is now available for dispensing.",
-    });
-
-  useEffect(() => {
-    if (createMedication.isSuccess) {
-      router.back();
-    }
-  }, [createMedication.isSuccess]);
 
   return {
     createMedication,

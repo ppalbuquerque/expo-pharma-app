@@ -6,8 +6,8 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import { buildStyles } from "./styles";
 
-export default function SuccessToast(props: BaseToastProps) {
-  const styles = buildStyles("successs");
+export default function ErrorToast(props: BaseToastProps) {
+  const styles = buildStyles("error");
 
   return (
     <View style={styles.modalContainer}>
