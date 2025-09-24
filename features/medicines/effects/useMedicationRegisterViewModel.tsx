@@ -68,7 +68,9 @@ export function useMedicationRegisterViewModel() {
       uploadFile.mutate(photoAsset, {
         onError: (error) => console.log("error", error),
         onSuccess: (response) => {
-          setValue("samplePhotoUrl", response.data.url);
+          setValue("samplePhotoUrl", response.data.url, {
+            shouldValidate: true,
+          });
         },
       });
     }

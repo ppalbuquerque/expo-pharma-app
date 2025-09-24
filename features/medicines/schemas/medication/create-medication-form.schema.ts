@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import { InferType } from "yup";
 
 export const createMedicationFormSchema = yup.object({
   name: yup.string().required(),
@@ -9,8 +10,7 @@ export const createMedicationFormSchema = yup.object({
   unitPrice: yup.number().required(),
   usefulness: yup.string().required(),
   stockAvailability: yup.number().required(),
-  samplePhotoUrl: yup.string().url(),
+  samplePhotoUrl: yup.string().url().required(),
 });
 
-export interface CreateMedicationForm
-  extends yup.InferType<typeof createMedicationFormSchema> {}
+export type CreateMedicationForm = InferType<typeof createMedicationFormSchema>;
