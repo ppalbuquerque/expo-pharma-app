@@ -10,7 +10,7 @@ export const createMedicationFormSchema = yup.object({
   unitPrice: yup.number().required(),
   usefulness: yup.string().required(),
   stockAvailability: yup.number().required(),
-  samplePhotoUrl: yup.string().url().required(),
+  samplePhotoUrl: yup.string().required(),
 });
 
 export type CreateMedicationForm = InferType<typeof createMedicationFormSchema>;

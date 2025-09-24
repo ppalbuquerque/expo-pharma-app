@@ -11,6 +11,7 @@ import {
   type CreateMedicationForm,
   createMedicationFormSchema,
 } from "../schemas/medication/create-medication-form.schema";
+import { useRef } from "react";
 
 export function useMedicationRegisterViewModel() {
   const { createMedication } = useMedicationModel();
@@ -24,6 +25,7 @@ export function useMedicationRegisterViewModel() {
     resolver: yupResolver(createMedicationFormSchema),
   });
   const { uploadFile } = useUploadFile();
+  const photoRef = useRef<ImagePicker.ImagePickerAsset | undefined>();
 
   const onCreateMedicationSuccess = () => {
     showSuccessToast();
@@ -55,23 +57,30 @@ export function useMedicationRegisterViewModel() {
   };
 
   const handleFormSubmit = handleSubmit(async (data) => {
-    createMedication.mutate(data, {
-      onSuccess: onCreateMedicationSuccess,
-      onError: onCreateMedicationError,
-    });
+    if (photoRef.current) {
+      uploadFile.mutate(photoRef.current, {
+        onError: (error) => console.log("error", error),
+        onSuccess: (response) => {
+          const createMedicationPayload = {
+            ...data,
+            samplePhotoUrl: response.data.url,
+          };
+          createMedication.mutate(createMedicationPayload, {
+            onSuccess: onCreateMedicationSuccess,
+            onError: onCreateMedicationError,
+          });
+        },
+      });
+    }
   });
 
   const onPhotoTaken = async (photo: ImagePicker.ImagePickerResult) => {
     const photoAsset = photo.assets?.at(0);
 
     if (photoAsset) {
-      uploadFile.mutate(photoAsset, {
-        onError: (error) => console.log("error", error),
-        onSuccess: (response) => {
-          setValue("samplePhotoUrl", response.data.url, {
-            shouldValidate: true,
-          });
-        },
+      photoRef.current = photoAsset;
+      setValue("samplePhotoUrl", photoRef.current.uri, {
+        shouldValidate: true,
       });
     }
   };
@@ -82,7 +91,7 @@ export function useMedicationRegisterViewModel() {
 
   return {
     createMedication,
-    createMedicationLoading: createMedication.isPending,
+    createMedicationLoading: createMedication.isPending || uploadFile.isPending,
     control,
     formErrors: errors,
     isFormValid: isValid,
