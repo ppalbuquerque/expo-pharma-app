@@ -1,6 +1,6 @@
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { MedicationService } from "@/services/medication.service";
 import { type CreateMedicationForm } from "@/features/medicines/schemas/medication/create-medication-form.schema";
-import { useQuery, useMutation } from "@tanstack/react-query";
 
 export function useMedicationModel() {
   const useGetMedications = () =>
@@ -19,7 +19,6 @@ export function useMedicationModel() {
     mutationFn: (data: CreateMedicationForm) => {
       return MedicationService.createMedication({
         ...data,
-        samplePhotoUrl: "https://picsum.photos/200/300",
       });
     },
   });

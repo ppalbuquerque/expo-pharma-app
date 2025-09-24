@@ -8,4 +8,4 @@ export type CreateMedicationDTO = {
   usefulness: string;
   stockAvailability: number;
   samplePhotoUrl: string;
-}
+};

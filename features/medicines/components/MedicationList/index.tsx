@@ -3,7 +3,6 @@ import { useState } from "react";
 import { FlatList, RefreshControl } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import { Link } from "expo-router";
-import { FlashList } from "@shopify/flash-list";
 
 import { Medication } from "@types";
 import MedicationCard from "../MedicationCard";
@@ -50,6 +49,7 @@ export default function MedicationList({
           <MedicationCard
             medicationTitle={item.name}
             chemicalComposition={item.chemicalComposition}
+            coverPhoto={item.samplePhotoUrl}
           />
         </Link>
       )}
