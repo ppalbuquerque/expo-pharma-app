@@ -8,17 +8,19 @@ import styles from "./styles";
 type Props = {
   medicationTitle: string;
   chemicalComposition: string;
+  coverPhoto: string;
 };
 
 export default function MedicationCard({
   chemicalComposition,
   medicationTitle,
+  coverPhoto,
 }: Props) {
   return (
     <View style={styles.cardContainer}>
       <View style={styles.contentContainer}>
         <View style={styles.contentLeftContainer}>
-          <Image style={styles.image} source="https://picsum.photos/200" />
+          <Image style={styles.image} source={coverPhoto} />
           <View style={styles.infoContainer}>
             <Text style={styles.medicationTitle}>{medicationTitle}</Text>
             <Text style={styles.medicationDescription}>
