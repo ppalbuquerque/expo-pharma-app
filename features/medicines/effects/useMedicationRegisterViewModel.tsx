@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import Toast from "react-native-toast-message";
 
+import { useUploadFile } from "@/shared/hooks/common/useUploadFile";
+
 import { useMedicationModel } from "../state/medication.model";
 import {
   type CreateMedicationForm,
@@ -17,9 +19,11 @@ export function useMedicationRegisterViewModel() {
     handleSubmit,
     formState: { errors, isValid },
     getValues,
+    setValue,
   } = useForm<CreateMedicationForm>({
     resolver: yupResolver(createMedicationFormSchema),
   });
+  const { uploadFile } = useUploadFile();
 
   const onCreateMedicationSuccess = () => {
     showSuccessToast();
@@ -58,7 +62,16 @@ export function useMedicationRegisterViewModel() {
   });
 
   const onPhotoTaken = async (photo: ImagePicker.ImagePickerResult) => {
-    console.log(photo);
+    const photoAsset = photo.assets?.at(0);
+
+    if (photoAsset) {
+      uploadFile.mutate(photoAsset, {
+        onError: (error) => console.log("error", error),
+        onSuccess: (response) => {
+          setValue("samplePhotoUrl", response.data.url);
+        },
+      });
+    }
   };
 
   const onCancelPress = () => {
