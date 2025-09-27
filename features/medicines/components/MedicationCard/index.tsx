@@ -5,6 +5,8 @@ import EvilIcons from "@expo/vector-icons/EvilIcons";
 
 import styles from "./styles";
 
+import Card from "@/shared/components/common/Card";
+
 type Props = {
   medicationTitle: string;
   chemicalComposition: string;
@@ -17,7 +19,7 @@ export default function MedicationCard({
   coverPhoto,
 }: Props) {
   return (
-    <View style={styles.cardContainer}>
+    <Card>
       <View style={styles.contentContainer}>
         <View style={styles.contentLeftContainer}>
           <Image style={styles.image} source={coverPhoto} />
@@ -34,6 +36,6 @@ export default function MedicationCard({
         </View>
         <View style={styles.stockIndicator} />
       </View>
-    </View>
+    </Card>
   );
 }
