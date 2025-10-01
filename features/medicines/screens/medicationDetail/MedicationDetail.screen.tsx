@@ -1,6 +1,6 @@
 import React from "react";
-import { StyleSheet, ScrollView, View } from "react-native";
-import { Card, ActivityIndicator } from "react-native-paper";
+import { ScrollView, View } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import { Stack } from "expo-router";
 
 import { useMedicationDetailViewModel } from "@/features/medicines/effects/useMedicationDetailViewModel";
@@ -8,21 +8,12 @@ import { useMedicationDetailViewModel } from "@/features/medicines/effects/useMe
 import Button from "@/shared/components/common/Button";
 // import Dialog from "@/shared/components/common/Toasts/";
 
-import MedicationInfo from "../../components/MedicationInfo";
+import MedicationCoverImage from "../../components/MedicineCoverImage";
+import { GeneralInfoSection } from "./sections/GeneralInfo.section";
+import { MedicationInformationSection } from "./sections/MedicationInformation.section";
+import { QuickActionSections } from "./sections/QuickActions.section";
 
-const styles = StyleSheet.create({
-  container: {
-    margin: 16,
-  },
-  buttonContainer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "flex-end",
-  },
-  editButton: {
-    marginRight: 16,
-  },
-});
+import styles from "./styles";
 
 export default function MedicationDetail() {
   const {
@@ -38,73 +29,35 @@ export default function MedicationDetail() {
     return <ActivityIndicator size="large" />;
   }
 
+  if (medication === undefined) return null;
+
   return (
     <View>
       <Stack.Screen
         options={{
-          title: medication?.name ?? "Detalhes do medicamento",
+          title: medication.name,
         }}
       />
-      <ScrollView style={styles.container}>
-        <MedicationInfo
-          coverUrl="https://picsum.photos/700"
-          medicationInfo={[
-            {
-              title: medication?.name,
-              description: medication?.chemicalComposition,
-            },
-          ]}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.container}
+      >
+        <MedicationCoverImage imageSource={medication.samplePhotoUrl} />
+        <GeneralInfoSection
+          medicationName={medication.name}
+          stock={!!medication.stockAvailability}
+          shelfLocation={medication.shelfLocation}
+          boxPrice={medication.boxPrice}
+          unitPrice={medication.unitPrice}
+          usefulness={medication.usefulness}
         />
-        <MedicationInfo
-          medicationInfo={[
-            {
-              title: "Posologia",
-              description: medication?.dosageInstructions,
-            },
-            {
-              title: "Para que serve",
-              description: medication?.usefulness,
-            },
-          ]}
+        <MedicationInformationSection
+          chemicalComposition={medication.chemicalComposition}
+          posology={medication.dosageInstructions}
+          shelfLocation={medication.shelfLocation}
+          stock={medication.stockAvailability}
         />
-        <MedicationInfo
-          medicationInfo={[
-            {
-              title: "Estoque",
-              description: `${medication?.stockAvailability} Unidades`,
-            },
-            {
-              title: "Posição",
-              description: `Prateleira ${medication?.shelfLocation}`,
-            },
-          ]}
-        />
-        <MedicationInfo
-          medicationInfo={[
-            {
-              title: "Preço Unitário",
-              description: `R$ ${medication?.unitPrice}`,
-            },
-            {
-              title: "Preço Caixa",
-              description: `R$ ${medication?.boxPrice}`,
-            },
-          ]}
-        />
-        <Card mode="outlined">
-          <Card.Content style={styles.buttonContainer}>
-            <Button icon="pencil" mode="contained" style={styles.editButton}>
-              Editar
-            </Button>
-            <Button
-              icon="delete"
-              mode="outlined"
-              onPress={handleDeleteMedicationToggle}
-            >
-              Apagar
-            </Button>
-          </Card.Content>
-        </Card>
+        <QuickActionSections />
       </ScrollView>
       {/* <Dialog
         visible={isDeleteDialogOpen}
