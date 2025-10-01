@@ -48,6 +48,7 @@ export default ({ stockAvailability }: GeneralInfoStyleParams) =>
     },
     usefulnessTitle: {
       fontSize: 20,
+      marginBottom: 20,
     },
     usefulnessTextArea: {
       lineHeight: 26,
