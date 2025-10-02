@@ -97,8 +97,7 @@ export default function MedicationRegisterScreen() {
                 <PharmaDropdownPicker
                   label="Posição na prateleira"
                   items={[{ label: "teste", value: "test" }]}
-                  value={field.value}
-                  setValue={field.onChange}
+                  onChangeValue={field.onChange}
                   helperText="Localização na prateleira"
                   placeholder="Selecione a posição na prateleira"
                   hasError={!!formErrors.shelfLocation}
