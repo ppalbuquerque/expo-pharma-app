@@ -13,4 +13,7 @@ export default StyleSheet.create({
   editButton: {
     marginRight: 16,
   },
+  cancelDeleteMedicationDialogButton: {
+    marginRight: 12,
+  },
 });

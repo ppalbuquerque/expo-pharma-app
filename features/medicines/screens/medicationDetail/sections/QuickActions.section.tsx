@@ -7,7 +7,11 @@ import { OutlinedButton } from "@/shared/components/common/OutlinedButton";
 
 import styles from "./QuickActions.styles";
 
-export function QuickActionSections() {
+type Props = {
+  onDeleteMedicationPress: () => void;
+};
+
+export function QuickActionSections({ onDeleteMedicationPress }: Props) {
   return (
     <PharmaCard style={styles.container}>
       <Text style={styles.cardTitle}>Ações Rápidas</Text>
@@ -37,7 +41,7 @@ export function QuickActionSections() {
         </OutlinedButton>
       </View>
       <View style={styles.buttonContainer}>
-        <OutlinedButton type="danger">
+        <OutlinedButton type="danger" onPress={onDeleteMedicationPress}>
           <Feather name="trash-2" size={24} color="black" style={styles.icon} />
           <View>
             <Text style={styles.buttonTitle}>Apagar medicamento</Text>
