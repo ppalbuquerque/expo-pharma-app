@@ -1,12 +1,13 @@
 import React from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, View, Text } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import { Stack } from "expo-router";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 import { useMedicationDetailViewModel } from "@/features/medicines/effects/useMedicationDetailViewModel";
 
 import Button from "@/shared/components/common/Button";
-// import Dialog from "@/shared/components/common/Toasts/";
+import { Dialog } from "@/shared/components/common/Dialog";
 
 import MedicationCoverImage from "../../components/MedicineCoverImage";
 import { GeneralInfoSection } from "./sections/GeneralInfo.section";
@@ -57,31 +58,41 @@ export default function MedicationDetail() {
           shelfLocation={medication.shelfLocation}
           stock={medication.stockAvailability}
         />
-        <QuickActionSections />
+        <QuickActionSections
+          onDeleteMedicationPress={handleDeleteMedicationToggle}
+        />
       </ScrollView>
-      {/* <Dialog
-        visible={isDeleteDialogOpen}
-        type="error"
-        title="Apagar medicamento"
-        description="Você tem certeza que deseja apagar esse medicamento do sistema?"
-        onDismiss={handleDeleteMedicationToggle}
-      >
-        <Button
-          mode="outlined"
-          buttonColor=""
-          onPress={handleDeleteMedicationToggle}
-        >
-          Cancelar
-        </Button>
-        <Button
-          buttonColor=""
-          onPress={handleDeleteMedication}
-          loading={deleteMedicationLoading}
-          disabled={deleteMedicationLoading}
-        >
-          Apagar
-        </Button>
-      </Dialog> */}
+      <Dialog.Container isVisible={isDeleteDialogOpen}>
+        <Dialog.Title
+          title="Apagar Medicamento"
+          icon={<AntDesign name="warning" size={24} color="orange" />}
+        />
+        <Dialog.Body>
+          <Text>
+            Você tem certeza que quer deletar {medication.name}? Essa ação não
+            pode ser desfeita
+          </Text>
+        </Dialog.Body>
+        <Dialog.Actions>
+          <Button
+            mode="outlined"
+            buttonColor="white"
+            style={styles.cancelDeleteMedicationDialogButton}
+            onPress={handleDeleteMedicationToggle}
+          >
+            Cancel
+          </Button>
+          <Button
+            mode="contained"
+            buttonColor="#FF5A5F"
+            textColor="white"
+            onPress={handleDeleteMedication}
+            loading={deleteMedicationLoading}
+          >
+            Apagar
+          </Button>
+        </Dialog.Actions>
+      </Dialog.Container>
     </View>
   );
 }

@@ -15,8 +15,8 @@ export default function Button({ children, ...props }: Props) {
     <PaperButton
       textColor={colors.onSurface}
       buttonColor={colors.secondaryContainer}
-      style={styles.container}
       {...props}
+      style={[styles.container, props.style]}
     >
       {children}
     </PaperButton>
