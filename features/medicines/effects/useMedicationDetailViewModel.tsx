@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 
 import { useMedicationModel } from "../state/medication.model";
@@ -16,14 +16,10 @@ export function useMedicationDetailViewModel() {
   };
 
   const handleDeleteMedication = async () => {
-    deleteMedication.mutate(id);
+    deleteMedication.mutate(id, {
+      onSuccess: () => router.back(),
+    });
   };
-
-  useEffect(() => {
-    if (deleteMedication.isSuccess) {
-      router.back();
-    }
-  }, [deleteMedication.isSuccess]);
 
   return {
     isDeleteDialogOpen,
