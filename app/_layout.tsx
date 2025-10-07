@@ -19,6 +19,10 @@ const theme = {
   },
 };
 
+if (__DEV__) {
+  require("../reactotron.config");
+}
+
 export default function RootLayout() {
   return (
     <>
