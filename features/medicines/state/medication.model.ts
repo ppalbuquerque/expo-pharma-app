@@ -1,11 +1,15 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { MedicationService } from "@/services/medication.service";
 import { type CreateMedicationForm } from "@/features/medicines/schemas/medication/create-medication-form.schema";
 
+import { MEDICATION_QUERY_KEYS } from "./medication.queries.key";
+
 export function useMedicationModel() {
+  const queryClient = useQueryClient();
+
   const useGetMedications = () =>
     useQuery({
-      queryKey: ["list-medications"],
+      queryKey: [MEDICATION_QUERY_KEYS.LIST_MEDICATIONS],
       queryFn: () => MedicationService.getAllMedications(),
     });
 
@@ -26,6 +30,10 @@ export function useMedicationModel() {
   const deleteMedication = useMutation({
     mutationFn: (medicationId: string) =>
       MedicationService.deleteMedication(medicationId),
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: [MEDICATION_QUERY_KEYS.LIST_MEDICATIONS],
+      }),
   });
 
   const useSearchMedications = (query: string) =>
