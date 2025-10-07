@@ -25,6 +25,10 @@ export function useMedicationModel() {
         ...data,
       });
     },
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: [MEDICATION_QUERY_KEYS.LIST_MEDICATIONS],
+      }),
   });
 
   const deleteMedication = useMutation({
