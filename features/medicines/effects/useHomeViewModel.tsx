@@ -8,7 +8,7 @@ export function useHomeViewModel() {
   const { useGetMedications, useSearchMedications } = useMedicationModel();
 
   const {
-    data: medications,
+    data: listMedications,
     refetch: refetchMedications,
     isLoading: isLoadingListMedications,
   } = useGetMedications();
@@ -23,7 +23,9 @@ export function useHomeViewModel() {
   };
 
   const medicationList =
-    debouncedSearchTerm.length > 0 ? searchResult : medications;
+    debouncedSearchTerm.length > 0
+      ? searchResult
+      : listMedications?.medications;
 
   const isLoadingMedications = isLoadingListMedications || isSearchFetching;
 

@@ -36,7 +36,7 @@ export function GeneralInfoSection({
             <Text style={styles.stockAvailaibilityText}>Em estoque</Text>
           </View>
           <View style={styles.grayDot} />
-          <Text>Prateleira A2</Text>
+          <Text>Prateleira {shelfLocation}</Text>
         </View>
       </View>
       <View style={styles.priceBoxContainer}>
@@ -46,12 +46,7 @@ export function GeneralInfoSection({
       <SeparalionLine marginBottom={24} marginTop={24} />
       <View>
         <Text style={styles.usefulnessTitle}>Uso do medicamento</Text>
-        <Text style={styles.usefulnessTextArea}>
-          Amoxicillin is a penicillin antibiotic used to treat bacterial
-          infections including pneumonia, bronchitis, ear infections, urinary
-          tract infections, and skin infections. It works by stopping the growth
-          of bacteria.
-        </Text>
+        <Text style={styles.usefulnessTextArea}>{usefulness}</Text>
       </View>
     </PharmaCard>
   );
