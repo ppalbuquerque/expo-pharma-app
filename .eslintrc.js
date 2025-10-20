@@ -4,6 +4,11 @@ module.exports = {
   plugins: ["prettier"],
   ignorePatterns: ["/dist/*"],
   rules: {
-    "prettier/prettier": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        trailingComma: "es5",
+      },
+    ],
   },
 };

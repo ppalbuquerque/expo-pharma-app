@@ -8,9 +8,12 @@ export function useHomeViewModel() {
   const { useGetMedications, useSearchMedications } = useMedicationModel();
 
   const {
-    data: medications,
+    data: medicationsPages,
     refetch: refetchMedications,
     isLoading: isLoadingListMedications,
+    fetchNextPage: fetchMoreMedications,
+    hasNextPage,
+    isFetchingNextPage,
   } = useGetMedications();
 
   const debouncedSearchTerm = useDebounce(searchValue);
@@ -18,12 +21,11 @@ export function useHomeViewModel() {
   const { data: searchResult, isFetching: isSearchFetching } =
     useSearchMedications(debouncedSearchTerm);
 
-  const handleOnSearchInputChange = (term: string) => {
-    setSearchValue(term);
-  };
+  const medicationPageFlattened =
+    medicationsPages?.pages.flatMap((page) => page.medications) ?? [];
 
   const medicationList =
-    debouncedSearchTerm.length > 0 ? searchResult : medications;
+    debouncedSearchTerm.length > 0 ? searchResult : medicationPageFlattened;
 
   const isLoadingMedications = isLoadingListMedications || isSearchFetching;
 
@@ -31,6 +33,16 @@ export function useHomeViewModel() {
     !isLoadingMedications &&
     medicationList !== undefined &&
     medicationList.length <= 0;
+
+  const handleOnSearchInputChange = (term: string) => {
+    setSearchValue(term);
+  };
+
+  const handleFetchMoreMedications = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchMoreMedications();
+    }
+  };
 
   return {
     searchValue,
@@ -40,5 +52,7 @@ export function useHomeViewModel() {
     setSearchValue,
     handleOnSearchInputChange,
     refetchMedications,
+    fetchMoreMedications: handleFetchMoreMedications,
+    isFetchingNextPage,
   };
 }

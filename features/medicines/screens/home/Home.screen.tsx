@@ -18,6 +18,8 @@ export default function HomeScreen() {
     isLoadingMedications,
     isMedicationListEmpty,
     refetchMedications,
+    fetchMoreMedications,
+    isFetchingNextPage,
   } = useHomeViewModel();
 
   return (
@@ -44,6 +46,8 @@ export default function HomeScreen() {
           medicationList={medicationList}
           onRefreshList={refetchMedications}
           isLoading={isLoadingMedications}
+          fetchMoreMedications={fetchMoreMedications}
+          isFetchingMore={isFetchingNextPage}
         />
       </View>
       <Link href="/(medication)/register" style={styles.addNewButton}>
