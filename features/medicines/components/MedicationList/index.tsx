@@ -1,31 +1,33 @@
 import React from "react";
-import { useState } from "react";
 import { FlatList, RefreshControl } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import { Link } from "expo-router";
 
 import { Medication } from "@types";
+
+import { useMedicationList } from "./useMedicationList";
 import MedicationCard from "../MedicationCard";
 import styles from "./styles";
 
 type Props = {
   medicationList: Medication[] | undefined;
   onRefreshList: () => void;
+  fetchMoreMedications: () => void;
   isLoading: boolean;
+  isFetchingMore: boolean;
 };
 
 export default function MedicationList({
   medicationList,
   onRefreshList,
   isLoading,
+  fetchMoreMedications,
+  isFetchingMore,
 }: Props) {
-  const [isRefreshing, setIsRefreshing] = useState(false);
-
-  const onRefresh = async () => {
-    setIsRefreshing(true);
-    await onRefreshList();
-    setIsRefreshing(false);
-  };
+  const { isRefreshing, onRefresh, onEndReached } = useMedicationList(
+    onRefreshList,
+    fetchMoreMedications
+  );
 
   if (isLoading) {
     return <ActivityIndicator size="large" style={{ marginTop: 32 }} />;
@@ -38,6 +40,14 @@ export default function MedicationList({
       refreshControl={
         <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
       }
+      onEndReached={onEndReached}
+      ListFooterComponent={() => {
+        if (isFetchingMore) {
+          return (
+            <ActivityIndicator size="large" style={{ marginVertical: 32 }} />
+          );
+        }
+      }}
       renderItem={({ item }) => (
         <Link
           style={styles.cardContainer}

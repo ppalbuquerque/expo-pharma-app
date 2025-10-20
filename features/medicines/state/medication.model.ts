@@ -1,16 +1,28 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  useInfiniteQuery,
+} from "@tanstack/react-query";
 import { MedicationService } from "@/services/medication.service";
 import { type CreateMedicationForm } from "@/features/medicines/schemas/medication/create-medication-form.schema";
 
 import { MEDICATION_QUERY_KEYS } from "./medication.queries.key";
 
+const GET_MEDICATIONS_LIMIT = 5;
+
 export function useMedicationModel() {
   const queryClient = useQueryClient();
 
   const useGetMedications = () =>
-    useQuery({
+    useInfiniteQuery({
       queryKey: [MEDICATION_QUERY_KEYS.LIST_MEDICATIONS],
-      queryFn: () => MedicationService.getAllMedications(),
+      initialPageParam: 0,
+      queryFn: ({ pageParam = 0 }) =>
+        MedicationService.getAllMedications(GET_MEDICATIONS_LIMIT, pageParam),
+      getNextPageParam: (lastPage) => {
+        return lastPage.nextPage;
+      },
     });
 
   const useGetMedicationById = (medicationId: string) =>

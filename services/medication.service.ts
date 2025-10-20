@@ -9,11 +9,16 @@ import type {
 const BASE_URL = "http://10.0.2.2:3000";
 
 export class MedicationService {
-  static async getAllMedications(): Promise<{
+  static async getAllMedications(
+    limit?: number,
+    offset?: number
+  ): Promise<{
     medications: Medication[];
     nextPage: number | null;
   }> {
-    const response = await axios.get(`${BASE_URL}/medication`);
+    const response = await axios.get(
+      `${BASE_URL}/medication?limit=${limit}&offset=${offset}`
+    );
     //** TODO: Transformar esses dados de acordo com algum model local */
     return response.data;
   }
