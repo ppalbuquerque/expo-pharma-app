@@ -1,6 +1,6 @@
 import React from "react";
-import { EditMedicationScreen } from "@/features/medicines/screens/editMedication/EditMedication.screen";
+import { MedicationEditScreen } from "@/features/medicines/screens/editMedication/MedicationEdit.screen";
 
 export default function MedicationDetailRoute() {
-  return <EditMedicationScreen />;
+  return <MedicationEditScreen />;
 }

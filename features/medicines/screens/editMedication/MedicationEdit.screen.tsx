@@ -7,17 +7,30 @@ import TextInput from "@/shared/components/common/TextInput";
 import Button from "@/shared/components/common/Button";
 import PharmaImagePicker from "@/shared/components/common/ImagePicker";
 import PharmaDropdownPicker from "@/shared/components/common/DropdownPicker";
+import CurrencyInput from "@/shared/components/common/CurrencyInput";
+
+import { useMedicationEditViewModel } from "../../effects/useMedicationEditViewModel";
 
 import styles from "./styles";
 
-export function EditMedicationScreen() {
+export function MedicationEditScreen() {
+  const {
+    control,
+    formErrors,
+    isFormValid,
+    createMedicationLoading,
+    onPhotoTaken,
+    onCancelPress,
+    handleFormSubmit,
+  } = useMedicationEditViewModel();
+
   return (
     <>
       <ScrollView
         style={styles.container}
         contentContainerStyle={{ paddingBottom: 50 }}
       >
-        <Stack.Screen options={{ title: "Registrar medicamento" }} />
+        <Stack.Screen options={{ title: "Editar medicamento" }} />
         <View style={styles.cardBackground}>
           <View>
             <Text style={styles.formTitle}>Registro de Medicamento</Text>

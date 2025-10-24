@@ -1,19 +1,19 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import { router } from "expo-router";
 import { useForm } from "react-hook-form";
-import * as ImagePicker from "expo-image-picker";
-import Toast from "react-native-toast-message";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useRef } from "react";
+import * as ImagePicker from "expo-image-picker";
+import { router } from "expo-router";
+import Toast from "react-native-toast-message";
 
 import { useUploadFile } from "@/shared/hooks/common/useUploadFile";
-
 import { useMedicationModel } from "../state/medication.model";
+
 import {
   type CreateMedicationForm,
   createMedicationFormSchema,
 } from "../schemas/medication/create-medication-form.schema";
 
-export function useMedicationRegisterViewModel() {
+export function useMedicationEditViewModel() {
   const { createMedication } = useMedicationModel();
   const {
     control,
@@ -26,6 +26,21 @@ export function useMedicationRegisterViewModel() {
   });
   const { uploadFile } = useUploadFile();
   const photoRef = useRef<ImagePicker.ImagePickerAsset | undefined>();
+
+  const onPhotoTaken = async (photo: ImagePicker.ImagePickerResult) => {
+    const photoAsset = photo.assets?.at(0);
+
+    if (photoAsset) {
+      photoRef.current = photoAsset;
+      setValue("samplePhotoUrl", photoRef.current.uri, {
+        shouldValidate: true,
+      });
+    }
+  };
+
+  const onCancelPress = () => {
+    router.back();
+  };
 
   const onCreateMedicationSuccess = () => {
     showSuccessToast();
@@ -74,28 +89,13 @@ export function useMedicationRegisterViewModel() {
     }
   });
 
-  const onPhotoTaken = async (photo: ImagePicker.ImagePickerResult) => {
-    const photoAsset = photo.assets?.at(0);
-
-    if (photoAsset) {
-      photoRef.current = photoAsset;
-      setValue("samplePhotoUrl", photoRef.current.uri, {
-        shouldValidate: true,
-      });
-    }
-  };
-
-  const onCancelPress = () => {
-    router.back();
-  };
-
   return {
     createMedicationLoading: createMedication.isPending || uploadFile.isPending,
     control,
     formErrors: errors,
     isFormValid: isValid,
-    handleFormSubmit,
     onPhotoTaken,
     onCancelPress,
+    handleFormSubmit,
   };
 }

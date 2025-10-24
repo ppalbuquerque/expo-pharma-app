@@ -7,11 +7,11 @@ import TextInput from "@/shared/components/common/TextInput";
 import Button from "@/shared/components/common/Button";
 import PharmaImagePicker from "@/shared/components/common/ImagePicker";
 import PharmaDropdownPicker from "@/shared/components/common/DropdownPicker";
+import CurrencyInput from "@/shared/components/common/CurrencyInput";
 
 import { useMedicationRegisterViewModel } from "../../effects/useMedicationRegisterViewModel";
 
 import styles from "./styles";
-import CurrencyInput from "@/shared/components/common/CurrencyInput";
 
 export default function MedicationRegisterScreen() {
   const {
