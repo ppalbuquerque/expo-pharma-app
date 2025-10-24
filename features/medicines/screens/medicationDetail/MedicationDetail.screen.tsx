@@ -24,6 +24,7 @@ export default function MedicationDetail() {
     deleteMedicationLoading,
     handleDeleteMedicationToggle,
     handleDeleteMedication,
+    onEditMedicationPress,
   } = useMedicationDetailViewModel();
 
   if (getMedicationLoading) {
@@ -60,6 +61,7 @@ export default function MedicationDetail() {
         />
         <QuickActionSections
           onDeleteMedicationPress={handleDeleteMedicationToggle}
+          onEditMedicationPress={onEditMedicationPress}
         />
       </ScrollView>
       <Dialog.Container isVisible={isDeleteDialogOpen}>

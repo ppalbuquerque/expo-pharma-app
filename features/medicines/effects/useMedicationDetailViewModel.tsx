@@ -21,6 +21,15 @@ export function useMedicationDetailViewModel() {
     });
   };
 
+  const onEditMedicationPress = () => {
+    router.navigate({
+      pathname: "/(medication)/(edit)/[id]",
+      params: {
+        id: medication?.id || "",
+      },
+    });
+  };
+
   return {
     isDeleteDialogOpen,
     medication,
@@ -28,5 +37,6 @@ export function useMedicationDetailViewModel() {
     deleteMedicationLoading: deleteMedication.isPending,
     handleDeleteMedicationToggle,
     handleDeleteMedication,
+    onEditMedicationPress,
   };
 }
