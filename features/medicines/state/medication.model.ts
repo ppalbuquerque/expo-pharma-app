@@ -27,8 +27,14 @@ export function useMedicationModel() {
 
   const useGetMedicationById = (medicationId: string) =>
     useQuery({
-      queryKey: ["medication-detail", medicationId],
+      queryKey: [MEDICATION_QUERY_KEYS.MEDICATION_DETAIL, medicationId],
       queryFn: () => MedicationService.getMedicationDetail(medicationId),
+    });
+
+  const useSearchMedications = (query: string) =>
+    useQuery({
+      queryKey: [MEDICATION_QUERY_KEYS.MEDICATION_SEARCH, query],
+      queryFn: () => MedicationService.search(query),
     });
 
   const createMedication = useMutation({
@@ -52,17 +58,24 @@ export function useMedicationModel() {
       }),
   });
 
-  const useSearchMedications = (query: string) =>
-    useQuery({
-      queryKey: ["medication-search", query],
-      queryFn: () => MedicationService.search(query),
-    });
+  const updateMedication = useMutation({
+    mutationFn: (data: CreateMedicationForm) =>
+      MedicationService.updateMedication(data),
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: [
+          MEDICATION_QUERY_KEYS.LIST_MEDICATIONS,
+          MEDICATION_QUERY_KEYS.MEDICATION_DETAIL,
+        ],
+      }),
+  });
 
   return {
     useGetMedications,
     useGetMedicationById,
+    useSearchMedications,
     createMedication,
     deleteMedication,
-    useSearchMedications,
+    updateMedication,
   };
 }
