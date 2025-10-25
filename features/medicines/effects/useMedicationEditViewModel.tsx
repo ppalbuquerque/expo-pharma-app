@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { router, useLocalSearchParams } from "expo-router";
 import Toast from "react-native-toast-message";
@@ -15,7 +15,7 @@ import {
 
 export function useMedicationEditViewModel() {
   const { id: medicationId } = useLocalSearchParams<{ id: string }>();
-  const { createMedication, useGetMedicationById } = useMedicationModel();
+  const { updateMedication, useGetMedicationById } = useMedicationModel();
 
   const { data } = useGetMedicationById(medicationId);
 
@@ -28,10 +28,12 @@ export function useMedicationEditViewModel() {
   } = useForm<CreateMedicationForm>({
     resolver: yupResolver(createMedicationFormSchema),
     values: data,
+    reValidateMode: "onBlur",
   });
   const { uploadFile } = useUploadFile();
   const photoRef = useRef<ImagePicker.ImagePickerAsset | undefined>();
   const { samplePhotoUrl } = getValues();
+  const [isPhotoUpdated, setIsPhotoUpdated] = useState(false);
 
   const onPhotoTaken = async (photo: ImagePicker.ImagePickerResult) => {
     const photoAsset = photo.assets?.at(0);
@@ -41,6 +43,7 @@ export function useMedicationEditViewModel() {
       setValue("samplePhotoUrl", photoRef.current.uri, {
         shouldValidate: true,
       });
+      setIsPhotoUpdated(true);
     }
   };
 
@@ -48,12 +51,12 @@ export function useMedicationEditViewModel() {
     router.back();
   };
 
-  const onCreateMedicationSuccess = () => {
+  const onUpdateMedicationSuccess = () => {
     showSuccessToast();
     setTimeout(() => router.back(), 1500);
   };
 
-  const onCreateMedicationError = () => {
+  const onUpdateMedicationError = () => {
     showErrorToast();
   };
 
@@ -62,8 +65,8 @@ export function useMedicationEditViewModel() {
 
     Toast.show({
       type: "success",
-      text1: "Medicamento registrado com sucesso!",
-      text2: `${name} foi adicionado ao sistema da farmácia e já pode ser utilizado.`,
+      text1: "Medicamento atualizado com sucesso!",
+      text2: `${name} foi atualizado no sistema da farmácia e já pode ser utilizado.`,
     });
   };
 
@@ -72,31 +75,34 @@ export function useMedicationEditViewModel() {
 
     Toast.show({
       type: "error",
-      text1: "Erro ao registrar o medicamento",
-      text2: `Ocorreu um erro ao tentar registrar ${name} dentro do sistema`,
+      text1: "Erro ao atualizar o medicamento",
+      text2: `Ocorreu um erro ao tentar atualizar ${name} dentro do sistema`,
     });
   };
 
   const handleFormSubmit = handleSubmit(async (data) => {
-    if (photoRef.current) {
-      uploadFile.mutate(photoRef.current, {
-        onError: (error) => console.log("error", error),
-        onSuccess: (response) => {
-          const createMedicationPayload = {
-            ...data,
-            samplePhotoUrl: response.data.url,
-          };
-          createMedication.mutate(createMedicationPayload, {
-            onSuccess: onCreateMedicationSuccess,
-            onError: onCreateMedicationError,
-          });
-        },
+    try {
+      let samplePhotoUrl = data.samplePhotoUrl;
+
+      if (photoRef.current && isPhotoUpdated) {
+        const uploadResponse = await uploadFile.mutateAsync(photoRef.current);
+        samplePhotoUrl = uploadResponse.data.url;
+      }
+
+      await updateMedication.mutateAsync({
+        ...data,
+        samplePhotoUrl,
       });
+
+      onUpdateMedicationSuccess();
+    } catch (error) {
+      console.log("error", error);
+      onUpdateMedicationError();
     }
   });
 
   return {
-    createMedicationLoading: createMedication.isPending || uploadFile.isPending,
+    createMedicationLoading: updateMedication.isPending || uploadFile.isPending,
     control,
     formErrors: errors,
     isFormValid: isValid,

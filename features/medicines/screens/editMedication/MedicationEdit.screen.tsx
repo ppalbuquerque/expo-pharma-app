@@ -34,7 +34,7 @@ export function MedicationEditScreen() {
         <Stack.Screen options={{ title: "Editar medicamento" }} />
         <View style={styles.cardBackground}>
           <View>
-            <Text style={styles.formTitle}>Registro de Medicamento</Text>
+            <Text style={styles.formTitle}>Edição de Medicamento</Text>
             <Text style={styles.formDescription}>
               Por favor, preencha os campos abaixo
             </Text>
@@ -196,7 +196,7 @@ export function MedicationEditScreen() {
             buttonColor="#FF5A5F"
             textColor="white"
           >
-            Registrar medicamento
+            Atualizar medicamento
           </Button>
         </View>
       </View>

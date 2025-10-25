@@ -49,24 +49,30 @@ export function useMedicationModel() {
       }),
   });
 
+  const updateMedication = useMutation({
+    mutationFn: (data: CreateMedicationForm) => {
+      return MedicationService.updateMedication({
+        ...data,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        predicate(query) {
+          return [
+            MEDICATION_QUERY_KEYS.LIST_MEDICATIONS,
+            MEDICATION_QUERY_KEYS.MEDICATION_DETAIL,
+          ].includes(query.queryKey[0] as string);
+        },
+      });
+    },
+  });
+
   const deleteMedication = useMutation({
     mutationFn: (medicationId: string) =>
       MedicationService.deleteMedication(medicationId),
     onSuccess: () =>
       queryClient.invalidateQueries({
         queryKey: [MEDICATION_QUERY_KEYS.LIST_MEDICATIONS],
-      }),
-  });
-
-  const updateMedication = useMutation({
-    mutationFn: (data: CreateMedicationForm) =>
-      MedicationService.updateMedication(data),
-    onSuccess: () =>
-      queryClient.invalidateQueries({
-        queryKey: [
-          MEDICATION_QUERY_KEYS.LIST_MEDICATIONS,
-          MEDICATION_QUERY_KEYS.MEDICATION_DETAIL,
-        ],
       }),
   });
 
