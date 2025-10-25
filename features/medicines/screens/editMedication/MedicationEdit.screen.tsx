@@ -103,6 +103,7 @@ export function MedicationEditScreen() {
                   placeholder="Selecione a posição na prateleira"
                   hasError={!!formErrors.shelfLocation}
                   errorMessage={formErrors.shelfLocation?.message}
+                  defaultValue={field.value}
                 />
               )}
             />
