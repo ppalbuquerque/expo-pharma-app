@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRef } from "react";
 import * as ImagePicker from "expo-image-picker";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import Toast from "react-native-toast-message";
 
 import { useUploadFile } from "@/shared/hooks/common/useUploadFile";
@@ -14,7 +14,11 @@ import {
 } from "../schemas/medication/create-medication-form.schema";
 
 export function useMedicationEditViewModel() {
-  const { createMedication } = useMedicationModel();
+  const { id: medicationId } = useLocalSearchParams<{ id: string }>();
+  const { createMedication, useGetMedicationById } = useMedicationModel();
+
+  const { data } = useGetMedicationById(medicationId);
+
   const {
     control,
     handleSubmit,
@@ -23,9 +27,11 @@ export function useMedicationEditViewModel() {
     setValue,
   } = useForm<CreateMedicationForm>({
     resolver: yupResolver(createMedicationFormSchema),
+    values: data,
   });
   const { uploadFile } = useUploadFile();
   const photoRef = useRef<ImagePicker.ImagePickerAsset | undefined>();
+  const { samplePhotoUrl } = getValues();
 
   const onPhotoTaken = async (photo: ImagePicker.ImagePickerResult) => {
     const photoAsset = photo.assets?.at(0);
@@ -94,6 +100,7 @@ export function useMedicationEditViewModel() {
     control,
     formErrors: errors,
     isFormValid: isValid,
+    samplePhotoUrl,
     onPhotoTaken,
     onCancelPress,
     handleFormSubmit,

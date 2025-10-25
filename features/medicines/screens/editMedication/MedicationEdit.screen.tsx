@@ -19,6 +19,7 @@ export function MedicationEditScreen() {
     formErrors,
     isFormValid,
     createMedicationLoading,
+    samplePhotoUrl,
     onPhotoTaken,
     onCancelPress,
     handleFormSubmit,
@@ -176,6 +177,7 @@ export function MedicationEditScreen() {
           <PharmaImagePicker
             onPhotoTaken={onPhotoTaken}
             label="Foto do medicamento"
+            image={samplePhotoUrl}
           />
         </View>
       </ScrollView>
