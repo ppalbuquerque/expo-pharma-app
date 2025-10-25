@@ -27,9 +27,6 @@ export default StyleSheet.create({
     marginBottom: 24,
     color: "#717171",
   },
-  textInputContainer: {
-    marginBottom: 24,
-  },
   fixedButtonAreaContainer: {
     backgroundColor: "#FFFFFF",
     position: "fixed",
