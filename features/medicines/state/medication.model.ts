@@ -5,7 +5,7 @@ import {
   useInfiniteQuery,
 } from "@tanstack/react-query";
 import { MedicationService } from "@/services/medication.service";
-import { type CreateMedicationForm } from "@/features/medicines/schemas/medication/create-medication-form.schema";
+import { type CreateMedicationForm } from "@/features/medicines/forms/create-medication-form.schema";
 
 import { MEDICATION_QUERY_KEYS } from "./medication.queries.key";
 

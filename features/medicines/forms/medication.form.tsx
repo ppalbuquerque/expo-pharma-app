@@ -9,7 +9,7 @@ import PharmaImagePicker from "@/shared/components/common/ImagePicker";
 import PharmaDropdownPicker from "@/shared/components/common/DropdownPicker";
 import CurrencyInput from "@/shared/components/common/CurrencyInput";
 
-import { type CreateMedicationForm } from "../schemas/medication/create-medication-form.schema";
+import { type CreateMedicationForm } from "./create-medication-form.schema";
 
 import styles from "./styles";
 
@@ -161,9 +161,16 @@ export function MedicationForm({
           )}
         />
       </View>
-      <PharmaImagePicker
-        onPhotoTaken={onPhotoTaken}
-        label="Foto do medicamento"
+      <Controller
+        control={control}
+        name="samplePhotoUrl"
+        render={({ field }) => (
+          <PharmaImagePicker
+            onPhotoTaken={onPhotoTaken}
+            label="Foto do medicamento"
+            image={field.value}
+          />
+        )}
       />
     </>
   );

@@ -11,7 +11,7 @@ import { useMedicationModel } from "../state/medication.model";
 import {
   type CreateMedicationForm,
   createMedicationFormSchema,
-} from "../schemas/medication/create-medication-form.schema";
+} from "../forms/create-medication-form.schema";
 
 export function useMedicationRegisterViewModel() {
   const { createMedication } = useMedicationModel();
@@ -57,20 +57,20 @@ export function useMedicationRegisterViewModel() {
   };
 
   const handleFormSubmit = handleSubmit(async (data) => {
-    if (photoRef.current) {
-      uploadFile.mutate(photoRef.current, {
-        onError: (error) => console.log("error", error),
-        onSuccess: (response) => {
-          const createMedicationPayload = {
-            ...data,
-            samplePhotoUrl: response.data.url,
-          };
-          createMedication.mutate(createMedicationPayload, {
-            onSuccess: onCreateMedicationSuccess,
-            onError: onCreateMedicationError,
-          });
-        },
-      });
+    try {
+      if (photoRef.current) {
+        const uploadResponse = await uploadFile.mutateAsync(photoRef.current);
+
+        const createMedicationPayload = {
+          ...data,
+          samplePhotoUrl: uploadResponse.data.url,
+        };
+
+        await createMedication.mutateAsync(createMedicationPayload);
+        onCreateMedicationSuccess();
+      }
+    } catch (error) {
+      onCreateMedicationError();
     }
   });
 

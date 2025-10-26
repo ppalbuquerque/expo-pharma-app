@@ -11,7 +11,7 @@ import { useMedicationModel } from "../state/medication.model";
 import {
   type CreateMedicationForm,
   createMedicationFormSchema,
-} from "../schemas/medication/create-medication-form.schema";
+} from "../forms/create-medication-form.schema";
 
 export function useMedicationEditViewModel() {
   const { id: medicationId } = useLocalSearchParams<{ id: string }>();
@@ -32,7 +32,6 @@ export function useMedicationEditViewModel() {
   });
   const { uploadFile } = useUploadFile();
   const photoRef = useRef<ImagePicker.ImagePickerAsset | undefined>();
-  const { samplePhotoUrl } = getValues();
   const [isPhotoUpdated, setIsPhotoUpdated] = useState(false);
 
   const onPhotoTaken = async (photo: ImagePicker.ImagePickerResult) => {
@@ -106,7 +105,6 @@ export function useMedicationEditViewModel() {
     control,
     formErrors: errors,
     isFormValid: isValid,
-    samplePhotoUrl,
     onPhotoTaken,
     onCancelPress,
     handleFormSubmit,
