@@ -12,23 +12,28 @@ import { useImagePicker } from "./useImagePicker.hook";
 interface IPharmaImagePicker {
   label: string;
   onPhotoTaken: (image: ImagePicker.ImagePickerResult) => Promise<void>;
+  image?: string;
 }
 
 export default function PharmaImagePicker({
   onPhotoTaken,
   label,
+  image,
 }: IPharmaImagePicker) {
   const { handleImagePick, imagePreview } = useImagePicker({
     onPhotoTaken,
   });
 
+  const showImagePreview = !!imagePreview || !!image;
+  const imageToShow = image || imagePreview;
+
   return (
     <View>
       <Text style={styles.label}>{label}</Text>
       <View style={styles.container}>
-        {imagePreview ? (
+        {showImagePreview ? (
           <Image
-            source={imagePreview}
+            source={imageToShow}
             style={styles.imageContainer}
             contentFit="contain"
           />

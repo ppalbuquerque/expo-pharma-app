@@ -18,6 +18,7 @@ interface IPharmaDropdownPicker {
   placeholder?: string;
   hasError: boolean;
   errorMessage: string | undefined;
+  defaultValue?: string | null;
 }
 
 export default function PharmaDropdownPicker({
@@ -27,8 +28,9 @@ export default function PharmaDropdownPicker({
   placeholder,
   hasError,
   onChangeValue,
+  defaultValue = null,
 }: IPharmaDropdownPicker) {
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState(defaultValue);
   const { isOpen, setIsOpen } = useDropDownPicker();
   const styles = buildStyles(hasError);
 

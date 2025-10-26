@@ -4,6 +4,7 @@ import type {
   Medication,
   CreateMedicationDTO,
   GetMedicationResponse,
+  UpdateMedicationDTO,
 } from "@types";
 
 const BASE_URL = "http://10.0.2.2:3000";
@@ -43,5 +44,9 @@ export class MedicationService {
       `${BASE_URL}/medication/search?q=${query}`
     );
     return response.data;
+  }
+
+  static async updateMedication(data: UpdateMedicationDTO): Promise<void> {
+    await axios.put(`${BASE_URL}/medication`, data);
   }
 }

@@ -3,6 +3,7 @@ import { router } from "expo-router";
 import { useForm } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import Toast from "react-native-toast-message";
+import { useRef } from "react";
 
 import { useUploadFile } from "@/shared/hooks/common/useUploadFile";
 
@@ -10,8 +11,7 @@ import { useMedicationModel } from "../state/medication.model";
 import {
   type CreateMedicationForm,
   createMedicationFormSchema,
-} from "../schemas/medication/create-medication-form.schema";
-import { useRef } from "react";
+} from "../forms/create-medication-form.schema";
 
 export function useMedicationRegisterViewModel() {
   const { createMedication } = useMedicationModel();
@@ -57,20 +57,20 @@ export function useMedicationRegisterViewModel() {
   };
 
   const handleFormSubmit = handleSubmit(async (data) => {
-    if (photoRef.current) {
-      uploadFile.mutate(photoRef.current, {
-        onError: (error) => console.log("error", error),
-        onSuccess: (response) => {
-          const createMedicationPayload = {
-            ...data,
-            samplePhotoUrl: response.data.url,
-          };
-          createMedication.mutate(createMedicationPayload, {
-            onSuccess: onCreateMedicationSuccess,
-            onError: onCreateMedicationError,
-          });
-        },
-      });
+    try {
+      if (photoRef.current) {
+        const uploadResponse = await uploadFile.mutateAsync(photoRef.current);
+
+        const createMedicationPayload = {
+          ...data,
+          samplePhotoUrl: uploadResponse.data.url,
+        };
+
+        await createMedication.mutateAsync(createMedicationPayload);
+        onCreateMedicationSuccess();
+      }
+    } catch (error) {
+      onCreateMedicationError();
     }
   });
 
@@ -90,7 +90,6 @@ export function useMedicationRegisterViewModel() {
   };
 
   return {
-    createMedication,
     createMedicationLoading: createMedication.isPending || uploadFile.isPending,
     control,
     formErrors: errors,
@@ -98,6 +97,5 @@ export function useMedicationRegisterViewModel() {
     handleFormSubmit,
     onPhotoTaken,
     onCancelPress,
-    showSuccessToast,
   };
 }

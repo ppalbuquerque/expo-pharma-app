@@ -9,13 +9,17 @@ import styles from "./QuickActions.styles";
 
 type Props = {
   onDeleteMedicationPress: () => void;
+  onEditMedicationPress: () => void;
 };
 
-export function QuickActionSections({ onDeleteMedicationPress }: Props) {
+export function QuickActionSections({
+  onDeleteMedicationPress,
+  onEditMedicationPress,
+}: Props) {
   return (
     <PharmaCard style={styles.container}>
       <Text style={styles.cardTitle}>Ações Rápidas</Text>
-      <OutlinedButton>
+      <OutlinedButton onPress={onEditMedicationPress}>
         <Feather name="edit" size={24} color="black" style={styles.icon} />
         <View>
           <Text style={styles.buttonTitle}>Editar medicamento</Text>

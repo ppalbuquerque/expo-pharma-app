@@ -1,24 +1,31 @@
 import React from "react";
 import { View, ScrollView, Text } from "react-native";
+import { Controller } from "react-hook-form";
 import { Stack } from "expo-router";
 
+import TextInput from "@/shared/components/common/TextInput";
 import Button from "@/shared/components/common/Button";
+import PharmaImagePicker from "@/shared/components/common/ImagePicker";
+import PharmaDropdownPicker from "@/shared/components/common/DropdownPicker";
+import CurrencyInput from "@/shared/components/common/CurrencyInput";
+
 import { MedicationForm } from "../../forms/medication.form";
 
-import { useMedicationRegisterViewModel } from "../../effects/useMedicationRegisterViewModel";
+import { useMedicationEditViewModel } from "../../effects/useMedicationEditViewModel";
 
 import styles from "./styles";
 
-export default function MedicationRegisterScreen() {
+export function MedicationEditScreen() {
   const {
-    createMedicationLoading,
     control,
     formErrors,
     isFormValid,
-    handleFormSubmit,
+    createMedicationLoading,
+    samplePhotoUrl,
     onPhotoTaken,
     onCancelPress,
-  } = useMedicationRegisterViewModel();
+    handleFormSubmit,
+  } = useMedicationEditViewModel();
 
   return (
     <>
@@ -26,10 +33,10 @@ export default function MedicationRegisterScreen() {
         style={styles.container}
         contentContainerStyle={{ paddingBottom: 50 }}
       >
-        <Stack.Screen options={{ title: "Registrar medicamento" }} />
+        <Stack.Screen options={{ title: "Editar medicamento" }} />
         <View style={styles.cardBackground}>
           <View>
-            <Text style={styles.formTitle}>Registro de Medicamento</Text>
+            <Text style={styles.formTitle}>Edição de Medicamento</Text>
             <Text style={styles.formDescription}>
               Por favor, preencha os campos abaixo
             </Text>
@@ -56,7 +63,7 @@ export default function MedicationRegisterScreen() {
             buttonColor="#FF5A5F"
             textColor="white"
           >
-            Registrar medicamento
+            Atualizar medicamento
           </Button>
         </View>
       </View>
