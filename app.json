@@ -41,7 +41,9 @@
           "photosPermission": "Permita que o app acesse a sua galeria de fotos.",
           "cameraPermission": "Permita que o app acesse a sua câmera para tirar fotos."
         }
-      ]
+      ],
+      "expo-font",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true
