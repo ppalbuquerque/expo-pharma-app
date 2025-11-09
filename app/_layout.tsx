@@ -9,6 +9,8 @@ import Toast from "react-native-toast-message";
 
 import { toastsConfig } from "@/shared/components/common/Toasts/toastConfig";
 
+import "@/polyfills";
+
 const queryClient = new QueryClient();
 
 const theme = {
