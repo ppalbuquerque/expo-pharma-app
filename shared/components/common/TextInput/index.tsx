@@ -14,7 +14,7 @@ import styles from "./styles";
 interface Props {
   errorText?: string;
   label: string;
-  error: boolean;
+  error?: boolean;
   value: string | undefined;
   onBlur?:
     | ((e: NativeSyntheticEvent<TextInputFocusEventData>) => void)

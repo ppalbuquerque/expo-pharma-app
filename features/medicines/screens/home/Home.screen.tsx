@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { FAB } from "react-native-paper";
 import { Link, Stack } from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 import MedicationList from "@/features/medicines/components/MedicationList";
 import HomeHeader from "../../components/HomeHeader";
@@ -51,7 +51,14 @@ export default function HomeScreen() {
         />
       </View>
       <Link href="/(medication)/register" style={styles.addNewButton}>
-        <FAB icon="plus" size="medium" style={styles.fabButton} />
+        <View style={styles.fabButton}>
+          <Ionicons name="add" size={32} color="white" />
+        </View>
+      </Link>
+      <Link href="/(chatbot)" style={styles.chatbotButton}>
+        <View style={styles.fabButton}>
+          <Ionicons name="chatbox" size={32} color="white" />
+        </View>
       </Link>
     </View>
   );

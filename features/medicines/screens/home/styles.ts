@@ -18,9 +18,16 @@ const styles = StyleSheet.create({
     bottom: 60,
     right: 0,
   },
+  chatbotButton: {
+    position: "absolute",
+    margin: 16,
+    bottom: 140,
+    right: 0,
+  },
   fabButton: {
     borderRadius: "50%",
     backgroundColor: "#FF5A5F",
+    padding: 16,
   },
   emptyMessageContainer: {
     flex: 1,

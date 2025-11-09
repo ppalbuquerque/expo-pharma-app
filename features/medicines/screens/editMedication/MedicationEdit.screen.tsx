@@ -1,13 +1,8 @@
 import React from "react";
 import { View, ScrollView, Text } from "react-native";
-import { Controller } from "react-hook-form";
 import { Stack } from "expo-router";
 
-import TextInput from "@/shared/components/common/TextInput";
 import Button from "@/shared/components/common/Button";
-import PharmaImagePicker from "@/shared/components/common/ImagePicker";
-import PharmaDropdownPicker from "@/shared/components/common/DropdownPicker";
-import CurrencyInput from "@/shared/components/common/CurrencyInput";
 
 import { MedicationForm } from "../../forms/medication.form";
 
@@ -21,7 +16,6 @@ export function MedicationEditScreen() {
     formErrors,
     isFormValid,
     createMedicationLoading,
-    samplePhotoUrl,
     onPhotoTaken,
     onCancelPress,
     handleFormSubmit,
