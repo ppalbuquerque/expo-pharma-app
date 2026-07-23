@@ -1,7 +1,7 @@
 export type Medication = {
   name: string;
   chemicalComposition: string;
-  id: number;
+  id: string;
   boxPrice: number;
   dosageInstructions: string;
   samplePhotoUrl: string;

@@ -109,7 +109,7 @@ Pontos onde o código do módulo diverge ou assume algo além do contrato — re
 
 - **`limit` default do módulo = 5** (`GET_MEDICATIONS_LIMIT`); o contrato usa default `10`.
 - **Shape da lista:** `useGetMedications`/`MedicationService.getAllMedications` esperam `{ medications: Medication[]; nextPage: number | null }`, mas o contrato (§3) documenta `GET /medication` retornando **array puro** de `Medication`. O service faz `return response.data` sem transformar (há `TODO` de mapeamento) — validar o retorno real do backend.
-- **Tipos de preço/`id`:** os tipos locais (`Medication`, `GetMedicationResponse`) tratam `id` como `number` e `boxPrice`/`unitPrice` ora como `number`, ora como `string`. O contrato (Schema Medication) define `id` como **UUID (string)** e preços como **inteiros em centavos** (ex: `4800 = R$ 48,00`). Ver seção 4.
+- **Tipos de preço/`id`:** alinhados ao contrato. `id` é `string` (UUID) em `Medication` e `GetMedicationResponse`; `boxPrice`/`unitPrice` são `number` (inteiro em centavos, ex: `4800 = R$ 48,00`) em todos os tipos. Conversão centavos↔reais centralizada em `shared/utils/money.ts`. Ver seção 4.
 - **Campos do contrato não modelados no frontend:** `boxAmount`, `fullTextSearch`, `createdAt`/`updatedAt` existem no Schema Medication mas não em `type Medication`.
 - **Upload:** `POST /files` responde com `{ url, ... }` (§4); o módulo usa apenas `url` como `samplePhotoUrl`.
 
@@ -121,7 +121,7 @@ Pontos onde o código do módulo diverge ou assume algo além do contrato — re
 // types/medication.types.d.ts
 // Tipo canônico usado na lista e busca.
 export type Medication = {
-  id: number;
+  id: string; // UUID
   name: string;
   chemicalComposition: string;
   dosageInstructions: string;
@@ -129,16 +129,16 @@ export type Medication = {
   usefulness: string;
   samplePhotoUrl: string;
   stockAvailability: number;
-  boxPrice: number; // numérico na lista/busca
-  unitPrice: number; // numérico na lista/busca
+  boxPrice: number; // Inteiro em centavos (ex: 4800 = R$ 48,00)
+  unitPrice: number; // Inteiro em centavos (ex: 600 = R$ 6,00)
 };
 ```
 
 ```typescript
 // types/responses/getMedicationResponse.type.d.ts
-// Resposta do detalhe (GET /medication/:id). Preços vêm como STRING aqui.
+// Resposta do detalhe (GET /medication/:id).
 export type GetMedicationResponse = {
-  id: number;
+  id: string; // UUID
   name: string;
   chemicalComposition: string;
   dosageInstructions: string;
@@ -146,10 +146,10 @@ export type GetMedicationResponse = {
   usefulness: string;
   samplePhotoUrl: string;
   stockAvailability: number;
-  boxPrice: string; // string neste endpoint
-  unitPrice: string; // string neste endpoint
+  boxPrice: number; // Inteiro em centavos (ex: 4800 = R$ 48,00)
+  unitPrice: number; // Inteiro em centavos (ex: 600 = R$ 6,00)
   createdAt: string;
-  updateAt: string;
+  updatedAt: string;
 };
 ```
 
@@ -188,7 +188,7 @@ export type CreateMedicationForm = {
 };
 ```
 
-> **Preços:** o contrato define `boxPrice`/`unitPrice` como **inteiros em centavos** (ex: `4800 = R$ 48,00`) — ver [Schema Medication](./api-reference.md#3-medication). Os tipos locais estão desalinhados (`number` na lista, `string` no detalhe); a UI usa o `CurrencyInput` compartilhado para entrada. Alinhar os tipos ao contrato (inteiro em centavos).
+> **Preços:** `boxPrice`/`unitPrice` são **inteiros em centavos** (ex: `4800 = R$ 48,00`) em toda a cadeia de tipos, conforme [Schema Medication](./api-reference.md#3-medication). O helper `shared/utils/money.ts` centraliza a conversão: `centsToBRL` (exibição, ex. `PriceBox`), `centsToReais` (popular o `CurrencyInput` na edição) e `reaisToCents` (borda de envio nos viewmodels de cadastro/edição). O `CurrencyInput` e o schema yup do formulário operam em reais; a conversão para centavos acontece só no submit.
 
 ---
 
@@ -517,7 +517,7 @@ Demais componentes do módulo: `HomeHeader` (título do header da Home), `Medici
 2. **Busca x lista:** busca só ativa com termo (com debounce) de tamanho `> 0`; abaixo disso vale a lista paginada.
 3. **Foto obrigatória no cadastro:** o submit de registro só ocorre se houver foto selecionada; a foto é enviada ao `/files` e a `url` retornada vira `samplePhotoUrl`.
 4. **Foto na edição:** upload só acontece se a foto foi alterada (`isPhotoUpdated`); caso contrário reaproveita a URL atual.
-5. **Preços em centavos:** o contrato ([Schema Medication](./api-reference.md#3-medication)) define `boxPrice`/`unitPrice` como inteiros em centavos. Os tipos locais divergem (`number` na lista, `string` no detalhe) — atenção ao formatar/parsear.
+5. **Preços em centavos:** `boxPrice`/`unitPrice` são inteiros em centavos ([Schema Medication](./api-reference.md#3-medication)) em toda a cadeia de tipos. Exibição via `centsToBRL`; formulário opera em reais e converte com `reaisToCents` no submit / `centsToReais` ao popular (helpers em `shared/utils/money.ts`).
 6. **`boxPrice` opcional no DTO, obrigatório no form:** `CreateMedicationDTO.boxPrice` é opcional, mas o schema do formulário exige o campo.
 7. **Exclusão é irreversível** e confirmada por diálogo antes de executar.
 8. **Invalidação de cache:** toda mutação invalida `LIST_MEDICATIONS`; update também invalida `MEDICATION_DETAIL`.

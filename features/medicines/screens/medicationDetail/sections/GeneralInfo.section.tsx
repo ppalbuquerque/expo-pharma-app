@@ -9,8 +9,8 @@ import buildStyles from "./GeneralInfo.styles";
 
 type Props = {
   medicationName: string;
-  boxPrice: string;
-  unitPrice: string;
+  boxPrice: number;
+  unitPrice: number;
   shelfLocation: string;
   stock: boolean;
   usefulness: string;
