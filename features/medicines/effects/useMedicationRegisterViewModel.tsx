@@ -6,6 +6,7 @@ import Toast from "react-native-toast-message";
 import { useRef } from "react";
 
 import { useUploadFile } from "@/shared/hooks/common/useUploadFile";
+import { reaisToCents } from "@/shared/utils/money";
 
 import { useMedicationModel } from "../state/medication.model";
 import {
@@ -63,6 +64,8 @@ export function useMedicationRegisterViewModel() {
 
         const createMedicationPayload = {
           ...data,
+          boxPrice: reaisToCents(data.boxPrice),
+          unitPrice: reaisToCents(data.unitPrice),
           samplePhotoUrl: uploadResponse.data.url,
         };
 

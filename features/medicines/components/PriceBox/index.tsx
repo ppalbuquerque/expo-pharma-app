@@ -1,13 +1,15 @@
 import React from "react";
 import { View, Text } from "react-native";
 
+import { centsToBRL } from "@/shared/utils/money";
+
 import styles from "./styles";
 
 type PriceBoxType = "boxPrice" | "unitPrice";
 
 type Props = {
   boxType: PriceBoxType;
-  price: string;
+  price: number;
 };
 
 const getBoxTitle = (boxType: PriceBoxType) => {
@@ -36,7 +38,7 @@ export function PriceBox({ boxType, price }: Props) {
   return (
     <View style={styles.container}>
       <Text style={styles.boxTitle}>{getBoxTitle(boxType)}</Text>
-      <Text style={styles.boxPrice}>R$ {price}</Text>
+      <Text style={styles.boxPrice}>R$ {centsToBRL(price)}</Text>
       <Text style={styles.boxDescription}>{getBoxDescription(boxType)}</Text>
     </View>
   );

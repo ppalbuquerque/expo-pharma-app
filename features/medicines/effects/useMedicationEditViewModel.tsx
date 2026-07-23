@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { router, useLocalSearchParams } from "expo-router";
 import Toast from "react-native-toast-message";
 
 import { useUploadFile } from "@/shared/hooks/common/useUploadFile";
+import { centsToReais, reaisToCents } from "@/shared/utils/money";
 import { useMedicationModel } from "../state/medication.model";
 
 import {
@@ -19,6 +20,16 @@ export function useMedicationEditViewModel() {
 
   const { data } = useGetMedicationById(medicationId);
 
+  const formValues = useMemo(() => {
+    if (!data) return undefined;
+
+    return {
+      ...data,
+      boxPrice: centsToReais(data.boxPrice),
+      unitPrice: centsToReais(data.unitPrice),
+    };
+  }, [data]);
+
   const {
     control,
     handleSubmit,
@@ -27,7 +38,7 @@ export function useMedicationEditViewModel() {
     setValue,
   } = useForm<CreateMedicationForm>({
     resolver: yupResolver(createMedicationFormSchema),
-    values: data,
+    values: formValues,
     reValidateMode: "onBlur",
   });
   const { uploadFile } = useUploadFile();
@@ -90,6 +101,8 @@ export function useMedicationEditViewModel() {
 
       await updateMedication.mutateAsync({
         ...data,
+        boxPrice: reaisToCents(data.boxPrice),
+        unitPrice: reaisToCents(data.unitPrice),
         samplePhotoUrl,
       });
 
